@@ -1,0 +1,39 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint 'src/**/*.ts' --fix",
+    "format": "prettier --write \"**/*.{ts,js,json,md}\"",
+    "dev": "tsx --watch -r dotenv/config src/index.ts",
+    "start": "node -r dotenv/config dist/index.js",
+    "build": "tsc -p tsconfig.json && tsc-alias -p tsconfig.json --src src "
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.28.0",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "mongoose": "^9.2.1",
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "zod": "^3.24.3"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.3.0",
+    "typescript": "~5.9.3",
+    "@types/cookie-parser": "^1.4.8",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/morgan": "^1.9.9",
+    "prettier": "^3.7.4",
+    "tsc-alias": "^0.0.7",
+    "tsx": "^4.19.3"
+  }
+}
