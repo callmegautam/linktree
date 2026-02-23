@@ -8,7 +8,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { validate } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-register',
