@@ -4,9 +4,16 @@
     "outDir": "dist",
     "module": "CommonJS",
     "baseUrl": ".",
+    "esModuleInterop": true,
     "paths": {
       "@linktree/validation": [
         "../../packages/validation/src/index.ts"
+      ],
+      "@linktree/shared-types": [
+        "../../packages/shared-types/src/index.ts"
+      ],
+      "@/*": [
+        "./src/*"
       ]
     }
   },

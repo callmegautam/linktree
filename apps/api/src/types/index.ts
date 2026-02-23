@@ -27,10 +27,10 @@ export type HttpStatus = (typeof HttpStatus)[keyof typeof HttpStatus];
 
 
 // ApiResponse for utils
-export type ApiResponse<T> = {
-  data?: T;
-  error?: string;
-};
+// export type ApiResponse<T> = {
+//   data?: T;
+//   error?: string;
+// };
 
 
 // AuthContext for authorization

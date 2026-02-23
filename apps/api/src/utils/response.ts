@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { ApiResponse } from '../types';
+import { ApiResponse } from '@linktree/shared-types';
 
 export const sendSuccess = <T>(res: Response, data: T, statusCode = 200) => {
   // const payload: ApiResponse<T> = { success: true, data };
