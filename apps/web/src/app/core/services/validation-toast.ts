@@ -77,12 +77,6 @@ export class ValidationToastService {
         this.toastr.error('Username must not exceed 30 characters');
         return false;
       }
-      if (username.errors?.['pattern']) {
-        this.toastr.error(
-          'Username can only contain lowercase letters, numbers, underscores and dots',
-        );
-        return false;
-      }
     }
 
     if (name?.invalid) {
@@ -107,12 +101,6 @@ export class ValidationToastService {
       }
       if (password.errors?.['minlength']) {
         this.toastr.error('Password must be at least 8 characters');
-        return false;
-      }
-      if (password.errors?.['pattern']) {
-        this.toastr.error(
-          'Password must contain at least one uppercase letter, one lowercase letter, and one number',
-        );
         return false;
       }
     }
