@@ -1,22 +1,13 @@
 import mongoose from 'mongoose';
-import { User } from '../../../models/user';
-import { generateToken, hashPassword, verifyPassword } from '../../../utils';
-import { fail, ok, Result } from '../../../utils/result';
+import { User } from '@/models/user';
+import { generateToken, hashPassword, verifyPassword } from '@/utils';
+import { fail, ok, Result } from '@/utils/result';
 import { CreateUser, LoginUser } from '@linktree/validation';
-
-type AuthServiceResponse = {
-  id: string;
-  name: string;
-  username: string;
-  email: string;
-  token: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
+import { AuthResponse } from '@linktree/shared-types';
 
 export const registerService = async (
   data: CreateUser,
-): Promise<Result<AuthServiceResponse>> => {
+): Promise<Result<AuthResponse>> => {
   try {
     const { name, username, email, password } = data;
 
@@ -49,7 +40,7 @@ export const registerService = async (
       email: user.email,
     });
 
-    const response: AuthServiceResponse = {
+    const response: AuthResponse = {
       id: user._id.toString(),
       name: user.name,
       username: user.username,
@@ -68,7 +59,7 @@ export const registerService = async (
 
 export const loginService = async (
   data: LoginUser,
-): Promise<Result<AuthServiceResponse>> => {
+): Promise<Result<AuthResponse>> => {
   try {
     const { email, password } = data;
 
@@ -90,7 +81,7 @@ export const loginService = async (
       email: user.email,
     });
 
-    const response: AuthServiceResponse = {
+    const response: AuthResponse = {
       id: user._id.toString(),
       name: user.name,
       username: user.username,

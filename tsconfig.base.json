@@ -7,7 +7,7 @@
         "skipLibCheck": true,
         "baseUrl": ".",
         "paths": {
-            "@shared-types/*": [
+            "@linktree/shared-types/*": [
                 "packages/shared-types/src/*"
             ],
             "@linktree/validation/*": [
