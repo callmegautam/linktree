@@ -1,10 +1,12 @@
 import { Schema, model, Types } from 'mongoose';
+import { UserRole } from '@linktree/validation';
 
 export interface UserDocument {
   _id: Types.ObjectId;
   name: string;
   username: string;
   email: string;
+  role: UserRole;
   passwordHash: string;
   createdAt: Date;
   updatedAt: Date;
@@ -30,6 +32,11 @@ const UserSchema = new Schema<UserDocument>(
       unique: true,
       lowercase: true,
       trim: true,
+    },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
     },
     passwordHash: {
       type: String,
