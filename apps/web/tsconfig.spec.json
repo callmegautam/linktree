@@ -4,12 +4,12 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
-    "types": [
-      "vitest/globals"
-    ]
+    "types": ["vitest/globals"],
+    "paths": {
+      "@linktree/validation": ["../../packages/validation/src/index.ts"],
+      "@linktree/shared-types": ["../../packages/shared-types/src/index.ts"],
+      "@/*": ["./src/*"]
+    }
   },
-  "include": [
-    "src/**/*.d.ts",
-    "src/**/*.spec.ts"
-  ]
+  "include": ["src/**/*.d.ts", "src/**/*.spec.ts"]
 }

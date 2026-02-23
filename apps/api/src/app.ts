@@ -18,7 +18,7 @@ app.use(
   cors({
     origin: '*',
     credentials: true,
-  }),
+  })
 );
 app.use(morgan(isProduction ? 'combined' : 'dev'));
 app.use(express.json());
@@ -32,7 +32,7 @@ app.get('/', async (_: Request, res: Response) => {
 
 app.use('/api/v1/', routes);
 
-app.use('*', (_: Request, res: Response) => {
+app.use((_: Request, res: Response) => {
   return sendError(res, 'Api Not Found', HttpStatus.NOT_FOUND);
 });
 
