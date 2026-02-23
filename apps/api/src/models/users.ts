@@ -1,17 +1,17 @@
-import { Schema, model, Document, Types } from "mongoose";
+import { Schema, model, Types, Document } from "mongoose";
 
-export interface AdminDocument extends Document {
+export interface UserDocument extends Document {
   _id: Types.ObjectId;
   name: string;
+  username: string;
   email: string;
   passwordHash: string;
-  role: "SUPER_ADMIN" | "SUPPORT";
-  deletedAt?: Date | null;
   createdAt: Date;
   updatedAt: Date;
+  deletedAt?: Date | null;
 }
 
-const AdminSchema = new Schema<AdminDocument>(
+const UserSchema = new Schema<UserDocument>(
   {
     name: {
       type: String,
@@ -19,25 +19,30 @@ const AdminSchema = new Schema<AdminDocument>(
       maxlength: 50,
       required: true,
     },
+    username: {
+      type: String,
+      unique: true,
+      sparse: true,
+      trim: true,
+      lowercase: true,
+      minlength: 3,
+      maxlength: 30,
+      match: /^[a-z0-9_.]+$/,
+      required: true,
+    },
     email: {
       type: String,
-      required: true,
       unique: true,
       lowercase: true,
       trim: true,
       maxlength: 120,
       match: /^\S+@\S+\.\S+$/,
+      required: true,
     },
     passwordHash: {
       type: String,
       required: true,
       select: false,
-    },
-    role: {
-      type: String,
-      enum: ["SUPER_ADMIN", "SUPPORT"],
-      default: "SUPPORT",
-      index: true,
     },
     deletedAt: {
       type: Date,
@@ -52,10 +57,14 @@ const AdminSchema = new Schema<AdminDocument>(
   }
 );
 
-// Unique index that ignores soft-deleted docs
-AdminSchema.index(
+// Compound index for soft-delete aware unique constraints
+UserSchema.index(
+  { username: 1, deletedAt: 1 },
+  { unique: true, partialFilterExpression: { deletedAt: null } }
+);
+UserSchema.index(
   { email: 1, deletedAt: 1 },
   { unique: true, partialFilterExpression: { deletedAt: null } }
 );
 
-export const Admin = model<AdminDocument>("Admin", AdminSchema);
+export const User = model<UserDocument>("User", UserSchema);

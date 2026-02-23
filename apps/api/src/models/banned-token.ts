@@ -1,20 +1,31 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Document, Types } from "mongoose";
 
-const BannedTokenSchema = new Schema(
+export interface BannedTokenDocument extends Document {
+  _id: Types.ObjectId;
+  token: string;
+  bannedAt: Date;
+}
+
+const BannedTokenSchema = new Schema<BannedTokenDocument>(
   {
     token: {
       type: String,
       required: true,
+      unique: true,
       index: true,
     },
     bannedAt: {
       type: Date,
       default: Date.now,
+      expires: 0, // rely on TTL index below
     },
   },
   {
     versionKey: false,
-  },
+  }
 );
 
-export const BannedToken = model('BannedToken', BannedTokenSchema);
+// TTL index: auto-remove after 7 days (60 * 60 * 24 * 7 = 604 800 s)
+BannedTokenSchema.index({ bannedAt: 1 }, { expireAfterSeconds: 604800 });
+
+export const BannedToken = model<BannedTokenDocument>("BannedToken", BannedTokenSchema);

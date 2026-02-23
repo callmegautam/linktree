@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { User } from '@/models/user';
+import { User } from '@/models/users';
 import { generateToken, hashPassword, verifyPassword } from '@/utils';
 import { fail, ok, Result } from '@/utils/result';
 import { CreateUser, LoginUser } from '@linktree/validation';
