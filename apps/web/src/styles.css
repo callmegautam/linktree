@@ -3,6 +3,71 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  #toast-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 999999 !important;
+  }
+
+  .toast-container {
+    position: fixed !important;
+  }
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    overflow-x: hidden;
+  }
+
+  /* Base Toast */
+  .custom-toast {
+    background: white !important;
+    color: #111827 !important; /* dark gray text */
+    border-radius: 12px !important;
+    padding: 16px 18px !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+    font-weight: 500;
+    font-size: 14px;
+    min-width: 260px;
+  }
+
+  /* Remove default background colors */
+  .toast-success,
+  .toast-error,
+  .toast-info,
+  .toast-warning {
+    background-image: none !important;
+  }
+
+  /* Success Style */
+  .toast-success {
+    border-left: 4px solid #22c55e !important; /* green */
+  }
+
+  /* Error Style */
+  .toast-error {
+    border-left: 4px solid #ef4444 !important; /* red */
+  }
+
+  /* Warning Style */
+  .toast-warning {
+    border-left: 4px solid #f59e0b !important; /* amber */
+  }
+
+  /* Info Style */
+  .toast-info {
+    border-left: 4px solid #3b82f6 !important; /* blue */
+  }
+
+  /* Fix positioning */
+  #toast-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 999999 !important;
+  }
+
   --background: oklch(1 0 0);
   --foreground: oklch(0.3211 0 0);
   --card: oklch(1 0 0);

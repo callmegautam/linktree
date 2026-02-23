@@ -8,6 +8,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
+import { ValidationToastService } from '@/app/core/services/validation-toast';
 
 @Component({
   selector: 'app-register',
@@ -15,6 +17,10 @@ import { CommonModule } from '@angular/common';
   templateUrl: './register.html',
 })
 export class Register {
+  constructor(
+    private toastr: ToastrService,
+    private validator: ValidationToastService,
+  ) {}
   registerForm = new FormGroup({
     name: new FormControl('', [
       Validators.required,
@@ -34,5 +40,9 @@ export class Register {
     ]),
   });
 
-  handleRegister() {}
+  handleRegister() {
+    if (!this.validator.validateRegister(this.registerForm)) return;
+
+    this.toastr.success('Registration successful!');
+  }
 }

@@ -6,5 +6,16 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideBrowserGlobalErrorListeners(), provideRouter(routes)],
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideRouter(routes),
+    provideToastr({
+      timeOut: 3000,
+      positionClass: 'toast-bottom-right',
+      newestOnTop: true,
+      closeButton: false,
+      progressBar: false,
+      toastClass: 'custom-toast',
+    }),
+  ],
 };

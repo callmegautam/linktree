@@ -1,3 +1,4 @@
+import { ValidationToastService } from '@/app/core/services/validation-toast';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
@@ -9,6 +10,7 @@ import {
   MaxValidator,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -16,12 +18,22 @@ import { RouterLink } from '@angular/router';
   templateUrl: './login.html',
 })
 export class Login {
+  constructor(
+    private toastr: ToastrService,
+    private validator: ValidationToastService,
+  ) {}
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [
-      (Validators.required, Validators.minLength(3), Validators.maxLength(20)),
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(20),
     ]),
   });
 
-  handleLogin() {}
+  handleLogin() {
+    if (!this.validator.validateLogin(this.loginForm)) return;
+
+    this.toastr.success('Login successful!');
+  }
 }
