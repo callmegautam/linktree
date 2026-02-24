@@ -5,20 +5,11 @@
       <div class="flex items-center gap-2 px-3 py-3 border-b border-gray-200">
         <!-- icon -->
         <div class="w-8 h-8 rounded-full bg-gray-400 flex items-center justify-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            class="w-5 h-5 text-white"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M5.121 17.804A9 9 0 1118.879 17.804M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-            />
-          </svg>
+          <img
+            src="images/user.png"
+            alt="Profile"
+            class="w-8 h-8 rounded-full border border-gray-300 object-cover"
+          />
         </div>
         <!-- email -->
         <span class="text-sm font-medium text-gray-700"> {{ userEmail$ | async }}</span>

@@ -10,10 +10,46 @@
     </div>
     <div class="flex flex-col h-full w-full p-5 gap-2">
       <div class="h-6 w-full">{{ userEmail$ | async }}</div>
-      <div class="h-9 w-full bg-amber-300"></div>
+      <div class="flex flex-row gap-1 h-9 w-full text-gray-400">
+        <lucide-icon name="instagram"></lucide-icon>
+        <lucide-icon name="facebook"></lucide-icon>
+        <lucide-icon name="twitter"></lucide-icon>
+        <lucide-icon name="linkedin"></lucide-icon>
+        <lucide-icon name="github"></lucide-icon>
+        <lucide-icon name="slack"></lucide-icon>
+      </div>
     </div>
   </div>
 
   <!-- Button below -->
-  <button class="h-10 w-120 rounded-2xl bg-blue-600 text-white">+ Add</button>
+  <button class="h-10 w-120 rounded-2xl bg-blue-600 text-white" (click)="togglePopup()">
+    + Add
+  </button>
+
+  <!-- Popup modal -->
+  <div
+    *ngIf="showPopup"
+    class="fixed inset-0 flex items-center justify-center bg-black/40 z-50 p-4"
+  >
+    <div class="bg-white rounded-xl w-96 max-h-[80vh] shadow-lg flex flex-col">
+      <!-- Sticky header -->
+      <div class="flex justify-between items-center p-4 border-b sticky top-0 bg-white z-10">
+        <h2 class="text-lg font-semibold">Add Social Link</h2>
+        <button class="text-gray-500" (click)="togglePopup()">
+          <lucide-icon name="x"></lucide-icon>
+        </button>
+      </div>
+
+      <!-- Scrollable content -->
+      <div class="flex flex-col gap-2 p-3 overflow-y-auto" style="max-height: calc(80vh - 64px)">
+        <button
+          *ngFor="let item of socialItems"
+          class="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 rounded-md"
+        >
+          <img [src]="item.icon" class="w-9 h-9 rounded-full object-cover border" />
+          <span>{{ item.name }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

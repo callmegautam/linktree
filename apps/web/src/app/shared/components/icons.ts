@@ -16,6 +16,8 @@ import {
   Mail,
   Twitch,
   Plus,
+  Cross,
+  X,
 } from 'lucide-angular';
 
 @NgModule({
@@ -37,6 +39,7 @@ import {
       Mail,
       Twitch,
       Plus,
+      X,
     }),
   ],
 
