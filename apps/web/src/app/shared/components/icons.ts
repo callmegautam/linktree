@@ -23,6 +23,10 @@ import {
   SquareUser,
   ALargeSmall,
   Image,
+  View,
+  MousePointerClick,
+  Percent,
+  Eye,
 } from 'lucide-angular';
 
 @NgModule({
@@ -50,6 +54,9 @@ import {
       SquareUser,
       ALargeSmall,
       Image,
+      Eye,
+      MousePointerClick,
+      Percent,
     }),
   ],
 
