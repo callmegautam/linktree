@@ -19,6 +19,10 @@ import {
   Cross,
   X,
   Trash2,
+  ChevronLeft,
+  SquareUser,
+  ALargeSmall,
+  Image,
 } from 'lucide-angular';
 
 @NgModule({
@@ -42,6 +46,10 @@ import {
       Plus,
       X,
       Trash2,
+      ChevronLeft,
+      SquareUser,
+      ALargeSmall,
+      Image,
     }),
   ],
 

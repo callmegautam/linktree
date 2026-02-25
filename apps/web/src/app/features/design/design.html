@@ -1,0 +1,201 @@
+<div class="w-full min-h-screen bg-gray-100 flex justify-center pt-10">
+  <div class="w-120">
+    <!-- main page -->
+    <ng-container *ngIf="currentPage === 'main'">
+      <div class="flex justify-between items-center mb-4">
+        <h1 class="text-lg font-semibold">Customize theme</h1>
+      </div>
+
+      <!-- card item -->
+      <div class="space-y-3">
+        <!-- header -->
+        <div
+          (click)="openPage('header')"
+          class="bg-white rounded-2xl px-4 py-3 flex justify-between items-center shadow-sm cursor-pointer hover:shadow-md transition"
+        >
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 bg-gray-200 rounded-full">
+              <img
+                src="images/user.png"
+                alt="Profile"
+                class="rounded-full border border-gray-300 object-cover"
+              />
+            </div>
+            <span class="text-sm font-medium">Header</span>
+          </div>
+
+          <span class="text-gray-400 text-sm">Classic ›</span>
+        </div>
+
+        <!-- wallpaper -->
+        <div
+          (click)="openPage('wallpaper')"
+          class="bg-white rounded-2xl px-4 py-3 flex justify-between items-center shadow-sm cursor-pointer hover:shadow-md transition"
+        >
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 bg-gray-100 rounded-xl"></div>
+            <span class="text-sm font-medium">Wallpaper</span>
+          </div>
+
+          <span class="text-gray-400 text-sm">Fill ›</span>
+        </div>
+
+        <!-- buttons -->
+        <div class="bg-white rounded-2xl px-4 py-3 flex justify-between items-center shadow-sm">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 bg-black rounded-xl"></div>
+            <span class="text-sm font-medium">Buttons</span>
+          </div>
+          <span class="text-gray-400 text-sm">Fill ›</span>
+        </div>
+
+        <!-- text -->
+        <div class="bg-white rounded-2xl px-4 py-3 flex justify-between items-center shadow-sm">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">Aa</div>
+            <span class="text-sm font-medium">Text</span>
+          </div>
+          <span class="text-gray-400 text-sm">Link Sans ›</span>
+        </div>
+
+        <!-- color -->
+        <div class="bg-white rounded-2xl px-4 py-3 flex justify-between items-center shadow-sm">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 bg-gray-100 rounded-xl"></div>
+            <span class="text-sm font-medium">Colors</span>
+          </div>
+          <span class="text-gray-400 text-sm">›</span>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- header page -->
+    <ng-container *ngIf="currentPage === 'header'">
+      <div class="flex items-center gap-3 mb-6">
+        <button
+          (click)="goBack()"
+          class="w-7 h-7 bg-gray-200 rounded-full shadow flex items-center justify-center"
+        >
+          <lucide-icon name="chevron-left" class="h-4 w-4"></lucide-icon>
+        </button>
+        <p class="text-lg font-semibold">Header</p>
+      </div>
+
+      <!-- Profile Image -->
+      <div class="mb-4">
+        <p class="text-sm mb-2">Profile image</p>
+
+        <div class="flex items-center gap-4">
+          <div class="w-16 h-16 bg-gray-300 rounded-full">
+            <img
+              src="images/user.png"
+              alt="Profile"
+              class="rounded-full border border-gray-300 object-cover"
+            />
+          </div>
+
+          <button
+            class="flex flex-row gap-1 items-center px-4 py-2 bg-black text-white rounded-full text-sm"
+          >
+            <lucide-icon name="plus" class="h-4 w-4 text-gray-300"></lucide-icon><span>Add</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Profile Layout -->
+      <div class="mb-4">
+        <p class="text-sm mb-3">Profile image layout</p>
+
+        <div class="flex gap-3">
+          <div class="flex flex-col items-center gap-2 cursor-pointer group">
+            <div
+              class="w-58 h-10 bg-gray-200 rounded-2xl flex items-center justify-center transition-all duration-200 group-hover:bg-gray-300"
+            >
+              <lucide-icon name="circle-user-round" class="w-5 h-5 text-gray-600"> </lucide-icon>
+            </div>
+
+            <p class="text-sm text-gray-600 font-medium">Classic</p>
+          </div>
+
+          <div class="flex flex-col items-center gap-2 cursor-pointer group">
+            <div
+              class="w-58 h-10 bg-gray-200 rounded-2xl flex items-center justify-center transition-all duration-200 group-hover:bg-gray-300"
+            >
+              <lucide-icon name="square-user" class="w-5 h-5 text-gray-600"> </lucide-icon>
+            </div>
+
+            <p class="text-sm text-gray-600 font-medium">Hero</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Title -->
+      <div class="mb-4">
+        <p class="text-sm mb-2">Title</p>
+        <input
+          type="text"
+          [value]="userEmail$ | async"
+          class="w-full p-2 h-10 text-sm rounded-xl border bg-white border-gray-300 focus:outline-none focus:ring-1 focus:ring-black"
+        />
+      </div>
+
+      <!-- Title Style -->
+      <div>
+        <p class="text-sm mb-3">Title style</p>
+        <div class="flex gap-3">
+          <div class="flex flex-col items-center gap-2 cursor-pointer group">
+            <div
+              class="w-58 h-10 bg-gray-200 rounded-2xl flex items-center justify-center transition-all duration-200 group-hover:bg-gray-300"
+            >
+              <lucide-icon name="a-large-small" class="w-5 h-5 text-gray-600"> </lucide-icon>
+            </div>
+
+            <p class="text-sm text-gray-600 font-medium">Text</p>
+          </div>
+
+          <div class="flex flex-col items-center gap-2 cursor-pointer group">
+            <div
+              class="w-58 h-10 bg-gray-200 rounded-2xl flex items-center justify-center transition-all duration-200 group-hover:bg-gray-300"
+            >
+              <lucide-icon name="image" class="w-5 h-5 text-gray-600"> </lucide-icon>
+            </div>
+
+            <p class="text-sm text-gray-600 font-medium">Logo</p>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- wallpaper page -->
+    <ng-container *ngIf="currentPage === 'wallpaper'">
+      <div class="flex items-center gap-3 mb-6">
+        <button
+          (click)="goBack()"
+          class="w-7 h-7 bg-gray-200 rounded-full shadow flex items-center justify-center"
+        >
+          <lucide-icon name="chevron-left" class="h-4 w-4"></lucide-icon>
+        </button>
+        <h1 class="text-lg font-semibold">Wallpaper</h1>
+      </div>
+
+      <p class="text-sm mb-4">Wallpaper style</p>
+
+      <div class="flex gap-4 mb-8">
+        <div class="w-20 h-20 bg-gray-200 rounded-2xl border-2 border-black"></div>
+        <div class="w-20 h-20 bg-linear-to-b from-gray-400 to-gray-200 rounded-2xl"></div>
+        <div class="w-20 h-20 bg-gray-300 rounded-2xl"></div>
+        <div class="w-20 h-20 bg-gray-200 rounded-2xl"></div>
+        <div class="w-20 h-20 bg-gray-200 rounded-2xl"></div>
+      </div>
+
+      <div>
+        <p class="text-sm mb-2">Background color</p>
+
+        <div class="flex items-center justify-between bg-white p-3 rounded-xl border">
+          <span>#ECEEF1</span>
+          <div class="w-6 h-6 rounded-full border border-gray-400"></div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
