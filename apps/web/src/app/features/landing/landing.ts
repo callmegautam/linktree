@@ -9,7 +9,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: './landing.html',
 })
 export class Landing {
-  openIndex: number | null = 0; // first one open by default
+  openIndex: number | null = null; // first one open by default
 
   faqs = [
     {
