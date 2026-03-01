@@ -3,18 +3,30 @@ import { IconsModule } from '@/app/shared/components/icons';
 import { AuthStore } from '@/app/store/auth';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { filter, map, Observable } from 'rxjs';
 
 type PageType = 'main' | 'header' | 'wallpaper' | 'buttons' | 'text' | 'colors';
 @Component({
   selector: 'app-design',
-  imports: [CommonModule, IconsModule],
+  imports: [CommonModule, IconsModule, FormsModule],
   templateUrl: './design.html',
 })
 export class Design {
+  selectedStyle: string = 'fill';
+  backgroundColor: string = '#ECEEF1';
   currentPage: PageType = 'main';
   Name$!: Observable<string>;
+  gradientColor1: string = '#8B5CF6';
+  gradientColor2: string = '#60A5FA';
+  buttonStyle: string = 'solid';
+  buttonRadius: string = 'rounder';
+  buttonShadow: string = 'none';
+  buttonColor: string = '#FFFFFF';
+  buttonTextColor: string = '#000000';
   imagePreview: string | ArrayBuffer | null = null;
+  pageTextColor = '#000000';
+  titleColor = '#000000';
 
   constructor(
     private authStore: AuthStore,
@@ -25,9 +37,6 @@ export class Design {
       map((user) => user.name),
     );
   }
-
-  selectedStyle: string = 'fill';
-  backgroundColor: string = '#ECEEF1';
 
   styles = [
     { id: 'fill', label: 'Fill' },

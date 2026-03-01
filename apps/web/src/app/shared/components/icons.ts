@@ -27,6 +27,7 @@ import {
   MousePointerClick,
   Percent,
   Eye,
+  ChevronDown,
 } from 'lucide-angular';
 
 @NgModule({
@@ -55,6 +56,7 @@ import {
       ALargeSmall,
       Image,
       Eye,
+      ChevronDown,
       MousePointerClick,
       Percent,
     }),
