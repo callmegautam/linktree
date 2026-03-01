@@ -12,18 +12,20 @@
         <input
           type="text"
           placeholder="Enter your name"
-          class="w-full h-10 px-4 rounded-xl text-sm bg-gray-100 text-gray-700 placeholder-gray-400 outline-none focus:ring-2 focus:ring-purple-300"
+          [value]="Name$ | async"
+          class="w-full h-10 px-4 rounded-xl text-sm bg-gray-100 text-gray-700 placeholder-gray-400 outline-none focus:ring-2 focus:ring-blue-300"
         />
       </div>
 
       <!-- Email Field -->
       <div class="mb-2">
-        <label class="block text-sm text-gray-500 mb-1"> Email </label>
+        <label class="block text-sm text-gray-500 mb-1"> Username </label>
 
         <input
-          type="email"
-          [value]="userEmail$ | async"
-          class="w-full h-10 px-4 rounded-xl bg-gray-100 text-black outline-none text-sm"
+          type="text"
+          placeholder="Enter your username"
+          [value]="userName$ | async"
+          class="w-full h-10 px-4 rounded-xl bg-gray-100 text-black outline-none text-sm focus:ring-2 focus:ring-blue-300"
         />
       </div>
 

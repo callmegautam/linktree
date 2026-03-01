@@ -9,11 +9,16 @@ import { filter, map, Observable } from 'rxjs';
   templateUrl: './account.html',
 })
 export class Account {
-  userEmail$!: Observable<string>;
+  userName$!: Observable<string>;
+  Name$!: Observable<string>;
   constructor(private authStore: AuthStore) {
-    this.userEmail$ = this.authStore.user$.pipe(
+    this.userName$ = this.authStore.user$.pipe(
       filter((user): user is any => !!user),
-      map((user) => user.email),
+      map((user) => user.username),
+    );
+    this.Name$ = this.authStore.user$.pipe(
+      filter((user): user is any => !!user),
+      map((user) => user.name),
     );
   }
 }

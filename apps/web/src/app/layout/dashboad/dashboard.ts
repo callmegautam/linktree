@@ -20,17 +20,18 @@ import { filter, map, Observable } from 'rxjs';
 export class dashboardLayout {
   pageName = '';
   showRightSidebar = false;
-  userEmail$!: Observable<string>;
+  userName$!: Observable<string>;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private authStore: AuthStore,
   ) {
-    this.userEmail$ = this.authStore.user$.pipe(
+    this.userName$ = this.authStore.user$.pipe(
       filter((user): user is any => !!user),
-      map((user) => user.email),
+      map((user) => user.username),
     );
+    console.log('usrname', this.userName$);
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       let currentRoute = this.route;
 

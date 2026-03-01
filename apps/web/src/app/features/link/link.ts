@@ -11,14 +11,14 @@ import { filter, map, Observable } from 'rxjs';
   templateUrl: './link.html',
 })
 export class Link {
-  userEmail$!: Observable<string>;
+  UserName$!: Observable<string>;
   showPopup = false;
   selectedItems: any[] = [];
 
   constructor(private authStore: AuthStore) {
-    this.userEmail$ = this.authStore.user$.pipe(
+    this.UserName$ = this.authStore.user$.pipe(
       filter((user): user is any => !!user),
-      map((user) => user.email),
+      map((user) => user.username),
     );
   }
 
