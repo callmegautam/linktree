@@ -1,19 +1,16 @@
-<div class="flex flex-col h-full items-center pt-10 gap-4 bg-gray-100">
+<div class="flex flex-col h-full items-center pt-10 gap-4 bg-[#FBFAF9]">
   <!--profile -->
   <div class="flex flex-row h-25 w-120 shrink-0">
     <div class="flex items-center justify-center h-full w-[25%]">
       <img
         src="images/user.png"
         alt="Profile"
-        class="w-22 h-22 rounded-full border border-gray-300 object-cover"
+        class="w-20 h-20 rounded-full border border-gray-300 object-cover"
       />
     </div>
 
-    <div class="flex flex-col h-full w-full p-5 gap-2">
-      <div class="h-6 w-full font-medium">
-        @
-        {{ UserName$ | async }}
-      </div>
+    <div class="flex flex-col h-full w-full p-5 gap-1">
+      <div class="h-6 w-full font-medium">@{{ UserName$ | async }}</div>
 
       <div class="flex flex-row gap-2 h-9 w-full text-gray-400">
         <lucide-icon name="instagram"></lucide-icon>
@@ -28,10 +25,11 @@
 
   <!-- button -->
   <button
-    class="h-10 w-120 rounded-2xl bg-blue-600 text-white shrink-0 hover:bg-blue-700 transition"
+    class="flex items-center justify-center h-10 w-120 rounded-3xl bg-blue-600 text-white hover:bg-blue-700 transition-colors"
     (click)="togglePopup()"
   >
-    + Add
+    <lucide-icon name="plus" class="w-5 h-5 mr-2"></lucide-icon>
+    Add
   </button>
 
   <!-- scroll link  -->
@@ -39,7 +37,7 @@
     <div class="flex flex-col gap-4 pb-6">
       <div
         *ngFor="let item of selectedItems; let i = index"
-        class="bg-gray-200 rounded-2xl p-4 h-20 w-120 flex flex-col gap-3 shadow-sm"
+        class="bg-white rounded-2xl p-4 h-20 w-120 flex flex-col gap-3 shadow-sm"
       >
         <div class="flex justify-between items-center">
           <!-- left -->
@@ -63,6 +61,13 @@
 
           <!-- right side -->
           <div class="flex items-center gap-4">
+            <button
+              (click)="openUrlInTab(item.url)"
+              class="text-blue-500 hover:text-blue-700 transition"
+              [disabled]="!item.url"
+            >
+              <lucide-icon name="upload" size="18"></lucide-icon>
+            </button>
             <button (click)="deleteLink(i)" class="text-red-500 hover:text-red-700 transition">
               <lucide-icon name="trash-2" size="18"></lucide-icon>
             </button>

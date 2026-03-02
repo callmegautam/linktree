@@ -53,10 +53,12 @@ export class Design {
 
   openPage(page: PageType) {
     this.currentPage = page;
+    this.uiStateService.setSaveState(true);
   }
 
   goBack() {
     this.currentPage = 'main';
+    this.uiStateService.setSaveState(false);
   }
 
   onFileSelected(event: any) {

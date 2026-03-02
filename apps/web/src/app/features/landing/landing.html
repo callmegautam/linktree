@@ -2,9 +2,10 @@
   <!-- nav bar -->
   <div class="flex items-center justify-center pt-10">
     <div class="flex flex-row bg-white w-[98%] h-20 rounded-full">
-      <div class="flex flex-row items-center pl-10 gap-1 w-[50%] h-full rounded-l-4xl">
+      <div class="flex flex-row items-center pl-10 w-[50%] h-full rounded-l-4xl">
         <h1 class="font-semibold text-2xl">Linktree</h1>
-        <lucide-icon name="cannabis" class="fill-black"></lucide-icon>
+        <!-- <lucide-icon name="cannabis" class="fill-black"></lucide-icon> -->
+        <img src="/images/blacklogo.png" class="w-5 h-5" alt="" />
       </div>
       <div class="flex flex-row items-center justify-end pr-10 gap-3 w-[50%] h-full rounded-r-4xl">
         <button [routerLink]="['/login']" class="w-20 h-12 bg-gray-200 text-black rounded-3xl">
@@ -31,7 +32,10 @@
 
           <input type="text" class="flex-1 bg-transparent outline-none ml-1" />
         </div>
-        <button class="px-7 py-3 bg-lime-900 text-sm rounded-3xl text-white">
+        <button
+          [routerLink]="['/register']"
+          class="px-7 py-3 bg-lime-900 text-sm rounded-3xl text-white"
+        >
           Get started for free
         </button>
       </div>
@@ -57,7 +61,10 @@
         one link in bio. Customize every detail or let Linktree automatically enhance it<br />
         to match your brand and drive more clicks.
       </p>
-      <button class="h-12 w-60 bg-[#D2E823] text-sm rounded-3xl font-semibold">
+      <button
+        [routerLink]="['/register']"
+        class="h-12 w-60 bg-[#D2E823] text-sm rounded-3xl font-semibold"
+      >
         Get started for free
       </button>
     </div>
@@ -72,7 +79,10 @@
         audience. Then use your QR code to drive your offline traffic back to your link <br />in
         bio.
       </p>
-      <button class="h-12 w-60 bg-[#E9C0E9] text-sm rounded-3xl font-semibold">
+      <button
+        [routerLink]="['/register']"
+        class="h-12 w-60 bg-[#E9C0E9] text-sm rounded-3xl font-semibold"
+      >
         Get started for free
       </button>
     </div>
@@ -92,7 +102,10 @@
         Track your engagement over time, monitor revenue and learn what’s converting <br />your
         audience. Make informed updates on the fly to keep them coming back.
       </p>
-      <button class="h-12 w-60 bg-[#E9C0E9] text-sm rounded-3xl font-semibold">
+      <button
+        [routerLink]="['/register']"
+        class="h-12 w-60 bg-[#E9C0E9] text-sm rounded-3xl font-semibold"
+      >
         Get started for free
       </button>
     </div>
@@ -231,8 +244,13 @@
     <div class="flex justify-between items-center mt-16">
       <!-- Left Buttons -->
       <div class="flex gap-6">
-        <button class="bg-gray-200 px-8 py-3 rounded-xl font-medium">Log in</button>
-        <button class="bg-[#D2E823] px-8 py-3 rounded-full text-black text-sm font-semibold">
+        <button [routerLink]="['/login']" class="bg-gray-200 px-8 py-3 rounded-xl font-medium">
+          Log in
+        </button>
+        <button
+          [routerLink]="['/register']"
+          class="bg-[#D2E823] px-8 py-3 rounded-full text-black text-sm font-semibold"
+        >
           Get started for free
         </button>
       </div>

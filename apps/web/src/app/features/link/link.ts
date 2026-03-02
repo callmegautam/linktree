@@ -76,4 +76,12 @@ export class Link {
   openCard() {
     this.isCardOpen = true;
   }
+
+  openUrlInTab(url: string | undefined) {
+    if (!url) return;
+
+    if (url) {
+      window.open(url, '_blank');
+    }
+  }
 }
