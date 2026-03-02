@@ -55,8 +55,23 @@ export const createProfileService = async (
     };
 
     await createThemeService(user_id, {
-      type: 'solid',
-      value: '#ffffff',
+      background: {
+        type: "gradient",
+        value: "linear-gradient(135deg, #1e293b, #0f172a)",
+      },
+
+      button: {
+        variant: "solid",
+        radius: "rounded",
+        color: "#6366f1",      // Indigo-500 vibe
+        textColor: "#ffffff",
+      },
+
+      text: {
+        font: "Inter",
+        pageColor: "#e2e8f0",  // Soft slate-200
+        titleColor: "#ffffff",
+      },
     });
 
     return ok(response);
