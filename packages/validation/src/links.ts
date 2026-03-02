@@ -1,6 +1,26 @@
 import { z } from "zod";
 
-export const PLATFORM_ENUM = ["instagram", "x", "linkedin"] as const;
+export const PLATFORM_ENUM = [
+  "instagram",
+  "facebook",
+  "youtube",
+  "spotify",
+  "slack",
+  "x",
+  "snapchat",
+  "github",
+  "linkedin",
+  "discord",
+  "telegram",
+  "substack",
+  "pinterest",
+  "twitch",
+  "whatsapp",
+  "threads",
+  "reddit",
+  "mail",
+  "applemusic",
+] as const;
 
 const objectId = z
   .string()

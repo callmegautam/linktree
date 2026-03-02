@@ -1,6 +1,25 @@
 import { Types, Document, Schema, model } from "mongoose";
 
-export type PlatformType = "instagram" | "x" | "linkedin";
+export type PlatformType =
+  | "instagram"
+  | "facebook"
+  | "youtube"
+  | "spotify"
+  | "slack"
+  | "x"
+  | "snapchat"
+  | "github"
+  | "linkedin"
+  | "discord"
+  | "telegram"
+  | "substack"
+  | "pinterest"
+  | "twitch"
+  | "whatsapp"
+  | "threads"
+  | "reddit"
+  | "mail"
+  | "applemusic";
 
 export interface LinksDocument extends Document {
   _id: Types.ObjectId;
