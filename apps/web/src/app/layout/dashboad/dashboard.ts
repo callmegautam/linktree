@@ -37,7 +37,8 @@ export class dashboardLayout {
       map((user) => user.username),
     );
     this.showSave$ = this.uiStateService.showSave$;
-    console.log('usrname', this.userName$);
+
+    console.log('username', this.userName$);
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       let currentRoute = this.route;
 
@@ -48,5 +49,9 @@ export class dashboardLayout {
       this.pageName = currentRoute.snapshot.data?.['name'] || '';
       this.showRightSidebar = currentRoute.snapshot.data?.['rightSidebar'] || false;
     });
+  }
+  saveChanges() {
+    console.log('Save clicked!');
+    this.uiStateService.setSaveState(false);
   }
 }
