@@ -54,4 +54,8 @@ export class dashboardLayout {
     console.log('Save clicked!');
     this.uiStateService.setSaveState(false);
   }
+  logout() {
+    this.authStore.clear();
+    this.router.navigate(['/login']);
+  }
 }

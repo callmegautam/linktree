@@ -5,7 +5,7 @@ import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-username',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule],
   templateUrl: './username.html',
 })
 export class Username {
@@ -32,6 +32,7 @@ export class Username {
     if (this.usernameForm.invalid) return;
 
     const username = this.usernameForm.value.username;
+    console.log(username);
 
     this.router.navigate(['/dashboard']);
   }

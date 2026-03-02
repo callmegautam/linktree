@@ -13,6 +13,7 @@ import { ValidationToastService } from '@/app/core/services/validation-toast';
 import { AuthService } from '@/app/core/services/auth';
 import { RegisterBody } from '@linktree/validation';
 import { ErrorHandlerService } from '@/app/core/services/error-handler';
+import { AuthStore } from '@/app/store/auth';
 
 @Component({
   selector: 'app-register',
@@ -26,6 +27,7 @@ export class Register {
     private router: Router,
     private authService: AuthService,
     private errorHandleService: ErrorHandlerService,
+    private authstore: AuthStore,
   ) {}
   registerForm = new FormGroup({
     name: new FormControl('', [
@@ -53,9 +55,11 @@ export class Register {
     this.authService.register(data).subscribe({
       next: (res) => {
         console.log(res);
-        this.toastr.success('Successful Login!!!');
-
-        this.router.navigate(['username']);
+        this.toastr.success('Successful registration!!!');
+        if (res.data) {
+          this.authstore.setUser(res.data);
+          this.router.navigate(['/username']);
+        }
       },
       error: (err) => {
         const errorMessage = this.errorHandleService.handleStatus(err.status);

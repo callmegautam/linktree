@@ -5,6 +5,7 @@ import { Design } from './features/design/design';
 import { Account } from './features/account/account';
 import { dashboardLayout } from './layout/dashboad/dashboard';
 import { Insight } from './features/insight/insight';
+import { AuthGuard } from './core/guards/auth';
 
 export const routes: Routes = [
   {
@@ -29,13 +30,30 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard',
-    component: dashboardLayout,
+    loadComponent: () => import('./layout/dashboad/dashboard').then((m) => m.dashboardLayout),
+    canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'links', pathMatch: 'full' },
-      { path: 'links', component: Link, data: { name: 'Links', rightSidebar: true } },
-      { path: 'design', component: Design, data: { name: 'Design', rightSidebar: true } },
-      { path: 'insight', component: Insight, data: { name: 'Insights', rightSidebar: false } },
-      { path: 'account', component: Account, data: { name: 'Account', rightSidebar: false } },
+      {
+        path: 'links',
+        component: Link,
+        data: { name: 'Links', rightSidebar: true },
+      },
+      {
+        path: 'design',
+        component: Design,
+        data: { name: 'Design', rightSidebar: true },
+      },
+      {
+        path: 'insight',
+        component: Insight,
+        data: { name: 'Insights', rightSidebar: false },
+      },
+      {
+        path: 'account',
+        component: Account,
+        data: { name: 'Account', rightSidebar: false },
+      },
     ],
   },
 ];
