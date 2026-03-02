@@ -28,6 +28,8 @@ import {
   Percent,
   Eye,
   ChevronDown,
+  Blocks,
+  LogOut,
 } from 'lucide-angular';
 
 @NgModule({
@@ -50,6 +52,8 @@ import {
       Twitch,
       Plus,
       X,
+      Blocks,
+      LogOut,
       Trash2,
       ChevronLeft,
       SquareUser,

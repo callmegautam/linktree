@@ -31,8 +31,8 @@ export const routes: Routes = [
     path: 'dashboard',
     component: dashboardLayout,
     children: [
-      { path: '', redirectTo: 'link', pathMatch: 'full' },
-      { path: 'link', component: Link, data: { name: 'Link', rightSidebar: true } },
+      { path: '', redirectTo: 'links', pathMatch: 'full' },
+      { path: 'links', component: Link, data: { name: 'Links', rightSidebar: true } },
       { path: 'design', component: Design, data: { name: 'Design', rightSidebar: true } },
       { path: 'insight', component: Insight, data: { name: 'Insights', rightSidebar: false } },
       { path: 'account', component: Account, data: { name: 'Account', rightSidebar: false } },
