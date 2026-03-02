@@ -1,54 +1,111 @@
-// theme.zod.ts
 import { z } from "zod";
 
-// --- shared enums/constants ---
-export const BACKGROUND_TYPE_ENUM = ["image", "gradient", "solid"] as const;
+/* ------------------ ENUMS ------------------ */
 
-// --- base helpers ---
+export const BACKGROUND_TYPE_ENUM = ["image", "gradient", "solid"] as const;
+export const BUTTON_VARIANT_ENUM = ["solid", "outline"] as const;
+export const BUTTON_RADIUS_ENUM = ["square", "rounded"] as const;
+
+/* ------------------ HELPERS ------------------ */
+
 const objectId = z
   .string()
-  .refine((val) => /^[0-9a-fA-F]{24}$/.test(val), "Invalid ObjectId");
+  .regex(/^[0-9a-fA-F]{24}$/, "Invalid ObjectId");
 
-// --- input schemas ---
-export const createThemeBodySchema = z.object({
+const hexColor = z
+  .string()
+  .regex(/^#[0-9a-fA-F]{6}$/, "Must be 6-digit hex color (#ffffff)");
+
+const imageUrl = z
+  .string()
+  .regex(/^https?:\/\/.+/, "Invalid image URL");
+
+const cssGradient = z
+  .string()
+  .regex(/^linear-gradient\(.+\)$/, "Must be valid CSS linear-gradient");
+
+/* ------------------ BACKGROUND ------------------ */
+
+export const backgroundSchema = z.object({
   type: z.enum(BACKGROUND_TYPE_ENUM),
-  value: z.string().superRefine((val, ctx) => {
-    const type = (ctx as any).parent.type;
-    if (type === "image" && !/^https?:\/\/.+/.test(val))
-      ctx.addIssue({ code: "custom", message: "Invalid image URL" });
-    if (type === "gradient" && !val.startsWith("bg-gradient"))
-      ctx.addIssue({ code: "custom", message: "Gradient must start with 'bg-gradient'" });
-    if (type === "solid" && !/^#[0-9a-fA-F]{6}$/.test(val))
-      ctx.addIssue({ code: "custom", message: "Solid color must be 6-digit hex (#ffffff)" });
-  }),
+  value: z.string(),
+}).superRefine((data, ctx) => {
+  if (data.type === "image" && !/^https?:\/\/.+/.test(data.value)) {
+    ctx.addIssue({
+      code: "custom",
+      message: "Invalid image URL",
+      path: ["value"],
+    });
+  }
+
+  if (data.type === "gradient" && !/^linear-gradient\(.+\)$/.test(data.value)) {
+    ctx.addIssue({
+      code: "custom",
+      message: "Must be valid CSS linear-gradient",
+      path: ["value"],
+    });
+  }
+
+  if (data.type === "solid" && !/^#[0-9a-fA-F]{6}$/.test(data.value)) {
+    ctx.addIssue({
+      code: "custom",
+      message: "Solid color must be 6-digit hex (#ffffff)",
+      path: ["value"],
+    });
+  }
+});
+
+/* ------------------ BUTTON ------------------ */
+
+export const buttonSchema = z.object({
+  variant: z.enum(BUTTON_VARIANT_ENUM),
+  radius: z.enum(BUTTON_RADIUS_ENUM),
+  color: hexColor,
+  textColor: hexColor,
+});
+
+/* ------------------ TEXT ------------------ */
+
+export const textSchema = z.object({
+  font: z.string().min(1),
+  pageColor: hexColor,
+  titleColor: hexColor,
+});
+
+/* ------------------ INPUT SCHEMAS ------------------ */
+
+export const createThemeBodySchema = z.object({
+  background: backgroundSchema,
+  button: buttonSchema,
+  text: textSchema,
 });
 
 export const updateThemeBodySchema = z.object({
-  type: z.enum(BACKGROUND_TYPE_ENUM),
-  value: z.string().superRefine((val, ctx) => {
-    const type = (ctx as any).parent.type;
-    if (type === "image" && !/^https?:\/\/.+/.test(val))
-      ctx.addIssue({ code: "custom", message: "Invalid image URL" });
-    if (type === "gradient" && !val.startsWith("bg-gradient"))
-      ctx.addIssue({ code: "custom", message: "Gradient must start with 'bg-gradient'" });
-    if (type === "solid" && !/^#[0-9a-fA-F]{6}$/.test(val))
-      ctx.addIssue({ code: "custom", message: "Solid color must be 6-digit hex (#ffffff)" });
-  }),
+  background: backgroundSchema.optional(),
+  button: buttonSchema.partial().optional(),
+  text: textSchema.partial().optional(),
 });
 
-// --- output/response schemas ---
+/* ------------------ RESPONSE ------------------ */
+
 export const themeResponseSchema = z.object({
   _id: objectId,
   user_id: objectId,
-  type: z.enum(BACKGROUND_TYPE_ENUM),
-  value: z.string(),
-
+  background: backgroundSchema,
+  button: buttonSchema,
+  text: textSchema,
+  createdAt: z.date(),
+  updatedAt: z.date(),
 });
 
-// --- route params ---
-export const themeUserIdParamSchema = z.object({ userId: objectId });
+/* ------------------ ROUTE PARAMS ------------------ */
 
-// --- inferred types ---
+export const themeUserIdParamSchema = z.object({
+  userId: objectId,
+});
+
+/* ------------------ TYPES ------------------ */
+
 export type CreateThemeBody = z.infer<typeof createThemeBodySchema>;
 export type UpdateThemeBody = z.infer<typeof updateThemeBodySchema>;
 export type ThemeResponse = z.infer<typeof themeResponseSchema>;

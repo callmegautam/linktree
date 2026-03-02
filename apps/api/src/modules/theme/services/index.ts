@@ -13,15 +13,35 @@ export const createThemeService = async (userId: string, data: CreateThemeBody):
 
     const theme = await ThemeModel.create({
       user_id: userId,
-      type: data.type,
-      value: data.value,
+      background: data.background,
+      button: data.button,
+      text: data.text,
     });
 
     const response: ThemeResponse = {
       _id: theme._id.toString(),
       user_id: theme.user_id.toString(),
-      type: theme.type,
-      value: theme.value,
+
+      background: {
+        type: theme.background.type,
+        value: theme.background.value,
+      },
+
+      button: {
+        variant: theme.button.variant,
+        radius: theme.button.radius,
+        color: theme.button.color,
+        textColor: theme.button.textColor,
+      },
+
+      text: {
+        font: theme.text.font,
+        pageColor: theme.text.pageColor,
+        titleColor: theme.text.titleColor,
+      },
+
+      createdAt: theme.created_at,
+      updatedAt: theme.updated_at,
     };
 
     return ok(response);
@@ -42,8 +62,27 @@ export const updateThemeService = async (userId: string, data: UpdateThemeBody):
     const response: ThemeResponse = {
       _id: theme._id.toString(),
       user_id: theme.user_id.toString(),
-      type: theme.type,
-      value: theme.value,
+
+      background: {
+        type: theme.background.type,
+        value: theme.background.value,
+      },
+
+      button: {
+        variant: theme.button.variant,
+        radius: theme.button.radius,
+        color: theme.button.color,
+        textColor: theme.button.textColor,
+      },
+
+      text: {
+        font: theme.text.font,
+        pageColor: theme.text.pageColor,
+        titleColor: theme.text.titleColor,
+      },
+
+      createdAt: theme.created_at,
+      updatedAt: theme.updated_at,
     };
 
     return ok(response);
