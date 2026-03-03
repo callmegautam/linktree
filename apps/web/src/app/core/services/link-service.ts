@@ -13,7 +13,7 @@ export class LinkService {
 
   constructor(private http: HttpClient) {}
 
-  createTask(payload: CreateLinkBody): Observable<LinkResponse> {
+  createLink(payload: CreateLinkBody): Observable<LinkResponse> {
     return this.http.post<LinkResponse>(`${this.API_URL}/`, payload);
   }
 }
