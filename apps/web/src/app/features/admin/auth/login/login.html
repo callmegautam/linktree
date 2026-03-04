@@ -1,15 +1,17 @@
-<div class="flex h-screen w-screen">
-  <!-- Left: security illustration -->
-  <div class="flex h-screen flex-1 min-w-0 items-center justify-center bg-gray-50 p-8">
-    <img
-      src="images/admin-login2.png"
-      alt="Security and login illustration"
-      class="max-h-[85vh] max-w-[90%] w-auto h-auto object-contain"
-    />
+<div class="flex h-screen w-full overflow-hidden">
+  <!-- Left: security illustration (same centering as right section) -->
+  <div class="flex h-screen flex-1 min-w-0 items-center justify-center bg-gray-50">
+    <div class="flex items-center justify-center h-full">
+      <img
+        src="images/admin-login2.png"
+        alt="Security and login illustration"
+        class="h-[90vh] max-w-[95%] object-contain scale-125 -translate-y-14"
+      />
+    </div>
   </div>
 
   <!-- Right: login form -->
-  <div class="flex h-screen flex-1 min-w-0 items-center justify-center bg-white pl-6 pr-8">
+  <div class="flex h-screen flex-1 min-w-0 items-center justify-center bg-white pl-6 pr-8 overflow-hidden">
     <form
       [formGroup]="loginForm"
       (ngSubmit)="handleLogin()"
