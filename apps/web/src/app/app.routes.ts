@@ -68,7 +68,7 @@ export const routes: Routes = [
     path: 'admindashboard',
     loadComponent: () =>
       import('./layout/admindashboard/admindashboard').then((m) => m.admindashboardLayout),
-    canActivate: [AdminAuthGuard],
+    // canActivate: [AdminAuthGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: Dashboard, data: { name: 'Dashboard' } },

@@ -28,6 +28,7 @@ export interface LinksDocument extends Document {
   title: string;
   link: string;
   platform: PlatformType;
+  isBlocked: boolean;
   created_at: Date;
   updated_at: Date;
 }
@@ -60,20 +61,18 @@ const LinksSchema = new Schema<LinksDocument>(
       required: true,
       enum: PLATFORM_ENUM,
     },
+    isBlocked: {
+      type: Boolean,
+      default: false,
+    },
   },
-  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
+  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } },
 );
 
 // 1. No duplicate titles per user+platform
-LinksSchema.index(
-  { user_id: 1, platform: 1, title: 1 },
-  { unique: true }
-);
+LinksSchema.index({ user_id: 1, platform: 1, title: 1 }, { unique: true });
 
 // 2. No duplicate links per user+platform
-LinksSchema.index(
-  { user_id: 1, platform: 1, link: 1 },
-  { unique: true }
-);
+LinksSchema.index({ user_id: 1, platform: 1, link: 1 }, { unique: true });
 
 export const Links = model<LinksDocument>("Link", LinksSchema);
