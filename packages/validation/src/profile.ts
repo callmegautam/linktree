@@ -10,8 +10,8 @@ export const createProfileBodySchema = z.object({
   bio: z.string().trim().max(160).optional(),
   avatar_url: z
     .string()
-    .url("Invalid avatar URL")
-    .regex(/^https?:\/\/.+/, "Must be HTTP(S) URL")
+    // .url("Invalid avatar URL")
+    // .regex(/^https?:\/\/.+/, "Must be HTTP(S) URL")
     .optional(),
 });
 

@@ -1,12 +1,14 @@
 import { Router } from "express";
-import { changeUsername, getProfile, updateProfile } from "@/modules/profile/controllers";
+import { changeUsername, getProfile, updateProfile, uploadAvatar } from "@/modules/profile/controllers";
 import { authMiddleware } from "@/middlewares/auth";
 import { asyncHandler } from "@/utils";
+import { upload } from "@/utils/multer";
 
 const router = Router();
 
 router.get("/", authMiddleware, asyncHandler(getProfile));
-router.put("/", authMiddleware, asyncHandler(updateProfile));
-router.put("/change-username", authMiddleware, asyncHandler(changeUsername));
+router.patch("/", authMiddleware, asyncHandler(updateProfile));
+router.patch("/change-username", authMiddleware, asyncHandler(changeUsername));
+router.post("/upload-avatar", authMiddleware, upload.single('file'), asyncHandler(uploadAvatar))
 
 export default router;

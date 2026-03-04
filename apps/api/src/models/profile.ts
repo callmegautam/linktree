@@ -33,10 +33,10 @@ const ProfileSchema = new Schema<ProfileDocument>(
     avatar_url: {
       type: String,
       trim: true,
-      validate: {
-        validator: (v: string) => /^https?:\/\/.+/.test(v),
-        message: "Invalid avatar URL",
-      },
+      // validate: {
+      //   validator: (v: string) => /^https?:\/\/.+/.test(v),
+      //   message: "Invalid avatar URL",
+      // },
     },
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }

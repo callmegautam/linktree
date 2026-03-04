@@ -23,6 +23,7 @@ app.use(
 app.use(morgan(isProduction ? 'combined' : 'dev'));
 app.use(express.json());
 app.use(express.static('public'));
+app.use("/images", express.static("public/images"));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 

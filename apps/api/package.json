@@ -15,9 +15,10 @@
   "license": "ISC",
   "packageManager": "pnpm@10.28.0",
   "dependencies": {
-    "@linktree/validation": "workspace:*",
     "@linktree/shared-types": "workspace:*",
+    "@linktree/validation": "workspace:*",
     "@types/cors": "^2.8.19",
+    "@types/multer": "^2.0.0",
     "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
@@ -26,6 +27,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^9.2.1",
     "morgan": "^1.10.0",
+    "multer": "^2.1.0",
     "zod": "^3.24.3"
   },
   "devDependencies": {
