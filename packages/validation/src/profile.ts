@@ -23,12 +23,14 @@ export const updateProfileBodySchema = z.object({
     .url("Invalid avatar URL")
     .regex(/^https?:\/\/.+/, "Must be HTTP(S) URL")
     .optional(),
+  username: z.string().trim().min(1).max(50).optional(),
 });
 
 export const profileResponseSchema = z.object({
   user_id: objectId,
   display_name: z.string(),
   bio: z.string().nullable(),
+  username: z.string().nullable(),
   avatar_url: z.string().nullable(),
   created_at: z.date(),
   updated_at: z.date(),

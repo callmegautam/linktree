@@ -81,13 +81,6 @@
       </h1>
 
       <!-- Right: Save Button -->
-      <button
-        *ngIf="showSave$ | async"
-        (click)="saveChanges()"
-        class="bg-blue-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-700 transition"
-      >
-        Save Changes
-      </button>
     </div>
     <div class="w-full h-[93%]">
       <router-outlet></router-outlet>

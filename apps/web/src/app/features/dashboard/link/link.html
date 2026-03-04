@@ -1,0 +1,105 @@
+<div class="flex flex-col p-6 overflow-y-auto">
+  <!-- Link Stats Cards -->
+  <div class="grid grid-cols-3 gap-6 mb-6">
+    <div class="bg-white rounded-2xl shadow p-4 text-center">
+      <div class="text-gray-500 text-sm">Total Links</div>
+      <div class="text-2xl font-bold">{{ links.length }}</div>
+    </div>
+    <div class="bg-white rounded-2xl shadow p-4 text-center">
+      <div class="text-gray-500 text-sm">Total Clicks</div>
+      <div class="text-2xl font-bold">{{ totalClicks }}</div>
+    </div>
+    <div class="bg-white rounded-2xl shadow p-4 text-center">
+      <div class="text-gray-500 text-sm">Active Links</div>
+      <div class="text-2xl font-bold">{{ activeLinks }}</div>
+    </div>
+  </div>
+
+  <!-- Filter Tabs -->
+  <div class="flex justify-start gap-4 mb-6">
+    <button
+      (click)="filter = 'all'"
+      [ngClass]="{
+        'bg-blue-600 text-white': filter === 'all',
+        'bg-gray-200 text-gray-700': filter !== 'all',
+      }"
+      class="px-4 py-2 rounded-2xl hover:bg-gray-300 transition"
+    >
+      All Links
+    </button>
+    <button
+      (click)="filter = 'active'"
+      [ngClass]="{
+        'bg-blue-600 text-white': filter === 'active',
+        'bg-gray-200 text-gray-700': filter !== 'active',
+      }"
+      class="px-4 py-2 rounded-2xl hover:bg-gray-300 transition"
+    >
+      Active Links
+    </button>
+    <button
+      (click)="filter = 'blocked'"
+      [ngClass]="{
+        'bg-blue-600 text-white': filter === 'blocked',
+        'bg-gray-200 text-gray-700': filter !== 'blocked',
+      }"
+      class="px-4 py-2 rounded-2xl hover:bg-gray-300 transition"
+    >
+      Blocked Links
+    </button>
+  </div>
+
+  <!-- Links Table -->
+  <div class="bg-white rounded-2xl shadow p-4 overflow-x-auto">
+    <table class="w-full text-center min-w-225">
+      <thead>
+        <tr class="border-b border-gray-200">
+          <th class="py-2 px-2">Link Title</th>
+          <th class="py-2 px-2">URL</th>
+          <th class="py-2 px-2">Owner</th>
+          <th class="py-2 px-2">Clicks</th>
+          <th class="py-2 px-2">Status</th>
+          <th class="py-2 px-2">Block/Unblock</th>
+          <th class="py-2 px-2">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let link of filteredLinks" class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="py-2 px-2">{{ link.title }}</td>
+          <td class="py-2 px-2">
+            <a href="{{ link.url }}" target="_blank" class="text-blue-600 hover:underline">
+              {{ link.url }}
+            </a>
+          </td>
+          <td class="py-2 px-2">{{ link.owner }}</td>
+          <td class="py-2 px-2">{{ link.clicks }}</td>
+          <td class="py-2 px-2">{{ link.status }}</td>
+
+          <!-- Block/Unblock Button -->
+          <td class="py-2 px-2">
+            <button
+              (click)="blockUnblockLink(link)"
+              class="px-3 py-1 rounded-lg text-white transition"
+              [ngClass]="{
+                'bg-red-500 hover:bg-red-600': link.status === 'Active',
+                'bg-green-500 hover:bg-green-600': link.status === 'Blocked',
+              }"
+            >
+              {{ link.status === 'Active' ? 'Block' : 'Unblock' }}
+            </button>
+          </td>
+
+          <!-- Delete Button -->
+          <td class="py-2 px-2">
+            <button
+              (click)="deleteLink(link)"
+              class="px-3 py-1 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+<div class="flex h-screen w-screen overflow-hidden bg-[#FBFAF9]">
+  <!-- Sidebar -->
+  <div class="h-full bg-[#F1F0EE] w-[13%] flex flex-col">
+    <div class="flex-1">
+      <!-- Admin Profile -->
+      <div class="flex items-center gap-2 px-3 py-3">
+        <div class="w-8 h-8 rounded-full bg-gray-400 flex items-center justify-center">
+          <img
+            src="images/adminlogo.png"
+            alt="Admin Profile"
+            class="w-8 h-8 rounded-full border border-gray-300 object-cover"
+          />
+        </div>
+        <span class="text-sm font-medium text-gray-700">Admin</span>
+      </div>
+
+      <!-- Panel Heading -->
+      <div class="flex flex-row gap-2 items-center px-4 pt-5 pb-1">
+        <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wide">Admin Panel</h2>
+      </div>
+
+      <!-- Menu Buttons -->
+      <div class="flex flex-col p-2 text-sm space-y-2">
+        <div
+          [routerLink]="['/admindashboard/dashboard']"
+          class="px-4 py-2 rounded-2xl hover:bg-gray-300 cursor-pointer text-gray-700 font-medium"
+        >
+          Dashboard
+        </div>
+        <div
+          [routerLink]="['/admindashboard/user']"
+          class="px-4 py-2 rounded-2xl hover:bg-gray-300 cursor-pointer text-gray-700 font-medium"
+        >
+          Users
+        </div>
+        <div
+          [routerLink]="['/admindashboard/link']"
+          class="px-4 py-2 rounded-2xl hover:bg-gray-300 cursor-pointer text-gray-700 font-medium"
+        >
+          Links
+        </div>
+
+        <div
+          class="px-4 py-2 rounded-2xl hover:bg-gray-300 cursor-pointer text-gray-700 font-medium"
+        >
+          Settings
+        </div>
+      </div>
+    </div>
+
+    <!-- Logout -->
+    <div class="flex border-t pl-2 border-gray-300">
+      <button
+        class="flex items-center gap-2 w-full px-4 py-3 text-red-500 text-lg hover:bg-gray-100 transition"
+      >
+        Logout
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 h-full flex flex-col">
+    <!-- Top Navbar -->
+    <div
+      class="h-[7%] w-full border-b border-gray-200 flex items-center justify-between px-6 bg-white"
+    >
+      <h1 class="text-xl font-semibold text-gray-800">{{ adminpage }}</h1>
+    </div>
+    <!-- pages -->
+    <router-outlet></router-outlet>
+  </div>
+</div>

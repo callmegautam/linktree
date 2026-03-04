@@ -1,4 +1,3 @@
-import { UiStateService } from '@/app/core/services/ui-state-service';
 import { IconsModule } from '@/app/shared/components/icons';
 import { AuthStore } from '@/app/store/auth';
 import { CommonModule } from '@angular/common';
@@ -28,10 +27,7 @@ export class Design {
   pageTextColor = '#000000';
   titleColor = '#000000';
 
-  constructor(
-    private authStore: AuthStore,
-    private uiStateService: UiStateService,
-  ) {
+  constructor(private authStore: AuthStore) {
     this.Name$ = this.authStore.user$.pipe(
       filter((user): user is any => !!user),
       map((user) => user.name),
@@ -53,12 +49,10 @@ export class Design {
 
   openPage(page: PageType) {
     this.currentPage = page;
-    this.uiStateService.setSaveState(true);
   }
 
   goBack() {
     this.currentPage = 'main';
-    this.uiStateService.setSaveState(false);
   }
 
   onFileSelected(event: any) {

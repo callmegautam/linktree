@@ -15,10 +15,16 @@ export const getProfileService = async (
       return fail('NOT_FOUND', 'User not found');
     }
 
+    const user = await User.findOne({ _id: userId });
+    if (!user) {
+      return fail('NOT_FOUND', 'User not found');
+    }
+
     const response: ProfileResponse = {
       user_id: profile.user_id.toString(),
       display_name: profile.display_name,
       bio: profile.bio || null,
+      username: user.username || null,
       avatar_url: profile.avatar_url || null,
       created_at: profile.created_at,
       updated_at: profile.updated_at,
@@ -45,10 +51,16 @@ export const createProfileService = async (
       avatar_url,
     });
 
+    const user = await User.findOne({ _id: user_id });
+    if (!user) {
+      return fail('NOT_FOUND', 'User not found');
+    }
+
     const response: ProfileResponse = {
       user_id: profile.user_id.toString(),
       display_name: profile.display_name,
       bio: profile.bio || null,
+      username: user.username || null,
       avatar_url: profile.avatar_url || null,
       created_at: profile.created_at,
       updated_at: profile.updated_at,
@@ -86,16 +98,30 @@ export const updateProfileService = async (
   data: UpdateProfileBody,
 ): Promise<Result<ProfileResponse>> => {
   try {
+
+    const isUsernameExists = await User.findOne({ username: data.username }).lean();
+
+    if (isUsernameExists && isUsernameExists._id.toString() !== userId) {
+      return fail('ALREADY_EXISTS', 'Username already exists');
+    }
+
+    const user = await User.findOneAndUpdate({ _id: userId }, { username: data.username }, { new: true });
+
+    if (!user) {
+      return fail('NOT_FOUND', 'User not found');
+    }
+
     const profile = await Profile.findOneAndUpdate({ user_id: userId }, data, { new: true });
 
     if (!profile) {
-      return fail('NOT_FOUND', 'User not found');
+      return fail('NOT_FOUND', 'Profile not found');
     }
 
     const response: ProfileResponse = {
       user_id: profile.user_id.toString(),
       display_name: profile.display_name,
       bio: profile.bio || null,
+      username: user.username || null,
       avatar_url: profile.avatar_url || null,
       created_at: profile.created_at,
       updated_at: profile.updated_at,

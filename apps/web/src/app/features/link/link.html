@@ -35,6 +35,7 @@
   <!-- scroll link  -->
   <div class="flex-1 w-full flex justify-center overflow-y-auto">
     <div class="flex flex-col gap-4 pb-6">
+      <!-- creating item box -->
       <div
         *ngFor="let item of selectedItems; let i = index"
         class="bg-white rounded-2xl p-4 h-20 w-120 flex flex-col gap-3 shadow-sm"
@@ -68,41 +69,93 @@
             >
               <lucide-icon name="upload" size="18"></lucide-icon>
             </button>
-            <button (click)="deleteLink(i)" class="text-red-500 hover:text-red-700 transition">
+            <button (click)="deleteBlankLink(i)" class="text-red-500 hover:text-red-700 transition">
               <lucide-icon name="trash-2" size="18"></lucide-icon>
+            </button>
+            <button
+              (click)="saveSingleLink(i)"
+              [disabled]="!item.link || !item.title || !item.enabled"
+            >
+              <lucide-icon name="save" size="18"></lucide-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        *ngFor="let link of links; trackBy: trackByLink"
+        class="bg-white rounded-2xl p-4 h-20 w-120 flex flex-col gap-3 shadow-sm"
+      >
+        <div class="flex justify-between items-center">
+          <!-- LEFT SIDE -->
+          <div class="flex gap-3 items-center">
+            <img
+              [src]="'images/' + link.platform + '.png'"
+              class="w-10 h-10 rounded-full object-cover"
+            />
+
+            <div class="flex flex-col">
+              <input [(ngModel)]="link.title" class="bg-transparent outline-none font-medium" />
+
+              <input
+                [(ngModel)]="link.link"
+                class="bg-transparent outline-none text-sm text-gray-500"
+              />
+            </div>
+          </div>
+
+          <!-- RIGHT SIDE (SAME AS CREATE CARD) -->
+          <div class="flex items-center gap-4">
+            <!-- Upload -->
+            <button
+              (click)="openLinkInTab(link.link)"
+              class="text-blue-500 hover:text-blue-700 transition"
+            >
+              <lucide-icon name="upload" size="18"></lucide-icon>
+            </button>
+
+            <!-- Delete -->
+            <button
+              (click)="deleteBackendLink(link)"
+              class="text-red-500 hover:text-red-700 transition"
+            >
+              <lucide-icon name="trash-2" size="18"></lucide-icon>
+            </button>
+
+            <!-- Update -->
+            <button (click)="updateLink(link)" [disabled]="!link.title || !link.link">
+              <lucide-icon name="save" size="18"></lucide-icon>
             </button>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- popup -->
   </div>
+</div>
 
-  <!-- popup -->
-  <div
-    *ngIf="showPopup"
-    class="fixed inset-0 flex items-center justify-center bg-black/40 z-50 p-4"
-  >
-    <div class="bg-white rounded-xl overflow-hidden w-120 max-h-[80vh] shadow-lg flex flex-col">
-      <!-- Popup Header -->
-      <div class="flex justify-between items-center p-4 border-b sticky top-0 bg-white z-10">
-        <h2 class="text-lg font-semibold">Add Social Link</h2>
+<div *ngIf="showPopup" class="fixed inset-0 flex items-center justify-center bg-black/40 z-50 p-4">
+  <div class="bg-white rounded-xl overflow-hidden w-120 max-h-[80vh] shadow-lg flex flex-col">
+    <!-- Popup Header -->
+    <div class="flex justify-between items-center p-4 border-b sticky top-0 bg-white z-10">
+      <h2 class="text-lg font-semibold">Add Social Link</h2>
 
-        <button class="text-gray-500" (click)="togglePopup()">
-          <lucide-icon name="x"></lucide-icon>
-        </button>
-      </div>
+      <button class="text-gray-500" (click)="togglePopup()">
+        <lucide-icon name="x"></lucide-icon>
+      </button>
+    </div>
 
-      <!-- sroll popup -->
-      <div class="flex flex-col gap-2 p-3 overflow-y-auto flex-1">
-        <button
-          *ngFor="let item of socialItems"
-          (click)="selectSocial(item)"
-          class="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 rounded-md transition"
-        >
-          <img [src]="item.icon" class="w-9 h-9 rounded-full object-cover border" />
-          <span>{{ item.name }}</span>
-        </button>
-      </div>
+    <!-- sroll popup -->
+    <div class="flex flex-col gap-2 p-3 overflow-y-auto flex-1">
+      <button
+        *ngFor="let item of socialItems"
+        (click)="selectSocial(item)"
+        class="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 rounded-md transition"
+      >
+        <img [src]="item.icon" class="w-9 h-9 rounded-full object-cover border" />
+        <span>{{ item.platform }}</span>
+      </button>
     </div>
   </div>
 </div>

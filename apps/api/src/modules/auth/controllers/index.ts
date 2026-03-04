@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
 import { registerBodySchema, loginBodySchema } from '@linktree/validation';
-import { loginService, registerService } from '@/modules/auth/services';
+import { deleteUserService, loginService, registerService } from '@/modules/auth/services';
 import { HttpStatus } from '@/types';
 import { sendError, sendSuccess, setCookie } from '@/utils';
 import { zodError } from '@/utils/zod-error';
@@ -61,3 +61,18 @@ export const me = async (req: Request, res: Response) => {
 
   // return sendSuccess(res, result.data, HttpStatus.OK);
 };
+
+
+export const deleteUser = async (req: Request, res: Response) => {
+
+  const userId = req?.auth?.id;
+  if (!userId) {
+    return sendError(res, 'Unauthorized', HttpStatus.UNAUTHORIZED);
+  }
+
+  const result = await deleteUserService(userId);
+  if (!result.ok) {
+    return sendError(res, result.message, errorReasonToHttpStatus(result.reason));
+  }
+  return sendSuccess(res, 'User deleted successfully', HttpStatus.OK);
+}

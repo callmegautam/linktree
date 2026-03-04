@@ -1,5 +1,8 @@
+import { Profile } from '@/models/profile';
 import { User } from '@/models/users';
 import { createProfileService } from '@/modules/profile/services';
+import { ThemeModel } from '@/models/theme';
+import { Links } from '@/models/links';
 import { generateToken, hashPassword, verifyPassword } from '@/utils';
 import { fail, ok, Result } from '@/utils/result';
 import { RegisterBody, LoginBody, UserResponse, ChangePasswordBody } from '@linktree/validation';
@@ -105,4 +108,19 @@ export const loginService = async (
 };
 
 
-
+export const deleteUserService = async (userId: string): Promise<Result<string>> => {
+  try {
+    const user = await User.findOneAndDelete({ _id: userId });
+    if (!user) {
+      return fail('NOT_FOUND', 'User not found');
+    }
+    await Profile.findOneAndDelete({ user_id: userId });
+    await ThemeModel.findOneAndDelete({ user_id: userId });
+    await Links.deleteMany({ user_id: userId });
+    
+    return ok('User deleted successfully' as const);
+  } catch (error) {
+    console.log(error);
+    return fail('DB_ERROR', 'Failed to delete user');
+  }
+}

@@ -1,3 +1,4 @@
+import { PLATFORM_ENUM } from "@linktree/validation";
 import { Types, Document, Schema, model } from "mongoose";
 
 export type PlatformType =
@@ -57,7 +58,7 @@ const LinksSchema = new Schema<LinksDocument>(
     platform: {
       type: String,
       required: true,
-      enum: ["instagram", "x", "linkedin"],
+      enum: PLATFORM_ENUM,
     },
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }

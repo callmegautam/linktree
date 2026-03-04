@@ -1,0 +1,72 @@
+<div class="flex flex-col p-6 overflow-y-auto">
+  <!-- Filter Tabs -->
+  <div class="flex items-center gap-4 mb-6">
+    <button
+      (click)="filter = 'all'"
+      [ngClass]="{
+        'bg-blue-600 text-white': filter === 'all',
+        'bg-gray-200 text-gray-700': filter !== 'all',
+      }"
+      class="px-4 py-2 rounded-2xl hover:bg-gray-300 transition"
+    >
+      All Users
+    </button>
+    <button
+      (click)="filter = 'active'"
+      [ngClass]="{
+        'bg-blue-600 text-white': filter === 'active',
+        'bg-gray-200 text-gray-700': filter !== 'active',
+      }"
+      class="px-4 py-2 rounded-2xl hover:bg-gray-300 transition"
+    >
+      Active Users
+    </button>
+    <button
+      (click)="filter = 'blocked'"
+      [ngClass]="{
+        'bg-blue-600 text-white': filter === 'blocked',
+        'bg-gray-200 text-gray-700': filter !== 'blocked',
+      }"
+      class="px-4 py-2 rounded-2xl hover:bg-gray-300 transition"
+    >
+      Blocked Users
+    </button>
+  </div>
+
+  <!-- Users Table -->
+  <div class="bg-white rounded-2xl shadow p-4 overflow-x-auto">
+    <table class="w-full text-center min-w-225">
+      <thead>
+        <tr class="border-b border-gray-200">
+          <th class="py-2 px-2 text-center">Name</th>
+          <th class="py-2 px-2 text-center">Username</th>
+          <th class="py-2 px-2 text-center">Email</th>
+          <th class="py-2 px-2 text-center">Link Title</th>
+          <th class="py-2 px-2 text-center">Clicks</th>
+          <th class="py-2 px-2 text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of filteredUsers" class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="py-2 px-2 text-center">{{ user.name }}</td>
+          <td class="py-2 px-2 text-center">{{ user.username }}</td>
+          <td class="py-2 px-2 text-center">{{ user.email }}</td>
+          <td class="py-2 px-2 text-center">{{ user.linkTitle }}</td>
+          <td class="py-2 px-2 text-center">{{ user.clicks }}</td>
+          <td class="py-2 px-2 text-center">
+            <button
+              (click)="blockUnblockUser(user)"
+              [ngClass]="{
+                'bg-red-500  hover:bg-red-600': user.status === 'Active',
+                'bg-green-500  hover:bg-green-600': user.status === 'Blocked',
+              }"
+              class="px-3 py-1 text-white rounded-lg transition"
+            >
+              {{ user.status === 'Active' ? 'Block' : 'Unblock' }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

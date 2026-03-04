@@ -31,9 +31,10 @@ export const adminLoginSchema = z.object({
 });
 
 export const adminResponseSchema = z.object({
-  _id: objectId,
+  id: objectId,
   name: z.string(),
   email: z.string(),
+  token: z.string(),
   role: z.enum(ROLE_ENUM),
   createdAt: z.date(),
   updatedAt: z.date(),
