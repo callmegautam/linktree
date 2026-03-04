@@ -15,7 +15,10 @@ export const registerBodySchema = z.object({
     .toLowerCase()
     .min(3)
     .max(30)
-    .regex(USERNAME_REGEX, "Username can only contain lowercase letters, numbers, underscores and dots"),
+    .regex(
+      USERNAME_REGEX,
+      "Username can only contain lowercase letters, numbers, underscores and dots",
+    ),
   email: z
     .string()
     .trim()
@@ -43,7 +46,10 @@ export const updateUserBodySchema = z.object({
     .toLowerCase()
     .min(3)
     .max(30)
-    .regex(USERNAME_REGEX, "Username can only contain lowercase letters, numbers, underscores and dots")
+    .regex(
+      USERNAME_REGEX,
+      "Username can only contain lowercase letters, numbers, underscores and dots",
+    )
     .optional(),
   email: z
     .string()
@@ -71,7 +77,10 @@ export const changeUsernameSchema = z.object({
     .toLowerCase()
     .min(3)
     .max(30)
-    .regex(USERNAME_REGEX, "Username can only contain lowercase letters, numbers, underscores and dots"),
+    .regex(
+      USERNAME_REGEX,
+      "Username can only contain lowercase letters, numbers, underscores and dots",
+    ),
 });
 
 export const userResponseSchema = z.object({
@@ -80,6 +89,9 @@ export const userResponseSchema = z.object({
   username: z.string(),
   email: z.string(),
   token: z.string(),
+  isActive: z.boolean().optional(),
+  isDeleted: z.boolean().optional(),
+  isBlocked: z.boolean().optional(),
   createdAt: z.date(),
   updatedAt: z.date(),
 });

@@ -6,6 +6,9 @@ export interface UserDocument extends Document {
   username: string;
   email: string;
   passwordHash: string;
+  isActive: boolean;
+  isDeleted: boolean;
+  isBlocked: boolean;
   createdAt: Date;
   updatedAt: Date;
   deletedAt?: Date | null;
@@ -44,6 +47,18 @@ const UserSchema = new Schema<UserDocument>(
       required: true,
       select: false,
     },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+    isBlocked: {
+      type: Boolean,
+      default: false,
+    },
     deletedAt: {
       type: Date,
       default: null,
@@ -54,17 +69,17 @@ const UserSchema = new Schema<UserDocument>(
   {
     timestamps: true,
     versionKey: false,
-  }
+  },
 );
 
 // Compound index for soft-delete aware unique constraints
 UserSchema.index(
   { username: 1, deletedAt: 1 },
-  { unique: true, partialFilterExpression: { deletedAt: null } }
+  { unique: true, partialFilterExpression: { deletedAt: null } },
 );
 UserSchema.index(
   { email: 1, deletedAt: 1 },
-  { unique: true, partialFilterExpression: { deletedAt: null } }
+  { unique: true, partialFilterExpression: { deletedAt: null } },
 );
 
 export const User = model<UserDocument>("User", UserSchema);

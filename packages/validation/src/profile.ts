@@ -32,6 +32,10 @@ export const profileResponseSchema = z.object({
   bio: z.string().nullable(),
   username: z.string().nullable(),
   avatar_url: z.string().nullable(),
+  clicks: z.number(),
+  isActive: z.boolean().optional(),
+  isDeleted: z.boolean().optional(),
+  isBlocked: z.boolean().optional(),
   created_at: z.date(),
   updated_at: z.date(),
 });

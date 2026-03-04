@@ -43,6 +43,7 @@ export const linkResponseSchema = z.object({
   user_id: objectId,
   title: z.string(),
   link: z.string(),
+  isBlocked: z.boolean().optional(),
   platform: z.enum(PLATFORM_ENUM),
   created_at: z.date(),
   updated_at: z.date(),

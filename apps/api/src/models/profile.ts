@@ -5,6 +5,10 @@ export interface ProfileDocument extends Document {
   display_name: string;
   bio?: string;
   avatar_url?: string;
+  clicks: number;
+  isActive: boolean;
+  isDeleted: boolean;
+  isBlocked: boolean;
   created_at: Date;
   updated_at: Date;
 }
@@ -30,6 +34,22 @@ const ProfileSchema = new Schema<ProfileDocument>(
       trim: true,
       maxlength: 160,
     },
+    clicks: {
+      type: Number,
+      default: 0,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+    isBlocked: {
+      type: Boolean,
+      default: false,
+    },
     avatar_url: {
       type: String,
       trim: true,
@@ -39,7 +59,7 @@ const ProfileSchema = new Schema<ProfileDocument>(
       // },
     },
   },
-  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
+  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } },
 );
 
 export const Profile = model<ProfileDocument>("Profile", ProfileSchema);

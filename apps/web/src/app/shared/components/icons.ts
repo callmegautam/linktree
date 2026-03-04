@@ -34,6 +34,8 @@ import {
   GalleryVerticalEnd,
   Save,
   Settings,
+  User,
+  Lock,
 } from 'lucide-angular';
 
 @NgModule({
@@ -70,7 +72,9 @@ import {
       Settings,
       Percent,
       Upload,
+      User,
       Save,
+      Lock,
     }),
   ],
 
