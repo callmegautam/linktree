@@ -151,7 +151,7 @@ export class Link implements OnInit {
         this.links = this.links.map((l) => (l._id === res.data!._id ? res.data! : l));
       },
       error: (err) => {
-        this.toastr.error(err);
+        this.toastr.error('already exist');
       },
     });
   }
