@@ -12,9 +12,8 @@ export const homePageResponseSchema = z.object({
   user: userResponseSchema,
   profile: profileResponseSchema,
   theme: themeResponseSchema,
-  links: linkResponseSchema,
+  links: linkResponseSchema.array(),
 });
-
 
 export type UsernameIdParam = z.infer<typeof usernameIdParamSchema>;
 export type HomePageResponse = z.infer<typeof homePageResponseSchema>;
