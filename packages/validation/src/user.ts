@@ -89,9 +89,9 @@ export const userResponseSchema = z.object({
   username: z.string(),
   email: z.string(),
   token: z.string(),
-  isActive: z.boolean(),
-  isDeleted: z.boolean(),
-  isBlocked: z.boolean(),
+  isActive: z.boolean().optional(),
+  isDeleted: z.boolean().optional(),
+  isBlocked: z.boolean().optional(),
   createdAt: z.date(),
   updatedAt: z.date(),
 });
