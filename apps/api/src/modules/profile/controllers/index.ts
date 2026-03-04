@@ -4,6 +4,7 @@ import { sendError, errorReasonToHttpStatus, sendSuccess, zodError } from "@/uti
 import { changeUsernameService, getProfileService, updateProfileService } from "../services";
 import { changeUsernameSchema, updateProfileBodySchema } from "@linktree/validation";
 import { Profile } from "@/models/profile";
+import env from "@/config/env";
 
 export const getProfile = async (req: Request, res: Response) => {
   const userId = req?.auth?.id;
@@ -81,14 +82,13 @@ export const uploadAvatar = async (req: Request, res: Response) => {
 
   const filePath = `/images/${req.file.filename}`;
 
-  const user = await Profile.findByIdAndUpdate(
-    userId,
-    { avatarUrl: filePath },
+
+  await Profile.findOneAndUpdate(
+    { user_id: userId },
+    { $set: { avatar_url: filePath } },
     { new: true }
   );
 
-  console.log("check" ,user)
-
-  return sendSuccess(res, user, HttpStatus.OK)
+  return sendSuccess(res, {path: filePath}, HttpStatus.OK)
   
 }

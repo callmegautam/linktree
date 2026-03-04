@@ -1,14 +1,15 @@
 import { ProfileService } from '@/app/core/services/profile-service';
 import { AuthStore } from '@/app/store/auth';
-import { AsyncPipe } from '@angular/common';
+import { environment } from '@/environment/environment';
+// import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UpdateProfileBody } from '@linktree/validation';
-import { filter, map, Observable } from 'rxjs';
+// import { filter, map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-account',
-  imports: [AsyncPipe, FormsModule],
+  imports: [ FormsModule],
   templateUrl: './account.html',
 })
 export class Account {
@@ -42,7 +43,14 @@ export class Account {
         this.name = res.data.display_name ?? 'checkin';
         this.username = res.data.username ?? '';
         this.bio = res.data.bio ?? 'This is your default bio';
-        this.avatarUrl = res.data.avatar_url ?? '';
+        if(res.data.avatar_url){
+          this.avatarUrl = `${environment.backend}${res?.data?.avatar_url}`;
+        }else{
+          this.avatarUrl = res.data.avatar_url ?? '';
+        }
+
+
+        console.log("Hello: ", this.avatarUrl)
       }
     });
   }
@@ -69,7 +77,9 @@ export class Account {
   
     this.profileService.uploadAvatar(formData).subscribe({
       next: (res: any) => {
-        this.avatarUrl = res.path; // returned from backend
+        this.avatarUrl = `${environment.backend}${res?.data?.path}` // returned from backend
+        console.log("Image: ", {image: this.avatarUrl})
+
       },
       error: (err) => {
         console.error('Upload failed', err);
