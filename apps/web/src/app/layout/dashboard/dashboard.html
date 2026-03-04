@@ -5,14 +5,11 @@
       <div class="flex items-center gap-2 px-3 py-3">
         <!-- icon -->
         <div class="w-8 h-8 rounded-full bg-gray-400 flex items-center justify-center">
-          <img
-            [src]="avatarUrl ? avatarUrl : 'images/user.png'"
-            alt="Profile"
-            class="rounded-full object-cover w-full h-full"
-          />
+          <img [src]="avatarUrl ? avatarUrl : 'images/user.png'" alt="Profile"
+            class="rounded-full object-cover w-full h-full" />
         </div>
         <!-- username -->
-        <span class="text-sm font-medium text-gray-700"> {{ username }}</span>
+        <span class="text-sm font-medium text-gray-700"> {{ name }}</span>
       </div>
 
       <!-- linktree heading -->
@@ -23,34 +20,26 @@
 
       <!-- menu button -->
       <div class="flex flex-col p-2 text-sm">
-        <a
-          [routerLink]="['/dashboard/links']"
-          class="flex items-center space-x-3 px-4 py-2 rounded-2xl hover:bg-gray-300 transition-colors"
-        >
+        <a [routerLink]="['/dashboard/links']"
+          class="flex items-center space-x-3 px-4 py-2 rounded-2xl hover:bg-gray-300 transition-colors">
           <lucide-icon name="link" class="w-4 h-4 text-gray-700"></lucide-icon>
           <span class="text-gray-700 font-medium">Links</span>
         </a>
 
-        <a
-          [routerLink]="['/dashboard/design']"
-          class="flex items-center space-x-3 px-4 py-2 rounded-2xl hover:bg-gray-300 transition-colors"
-        >
+        <a [routerLink]="['/dashboard/design']"
+          class="flex items-center space-x-3 px-4 py-2 rounded-2xl hover:bg-gray-300 transition-colors">
           <lucide-icon name="pencil" class="w-4 h-4 text-gray-700"></lucide-icon>
           <span class="text-gray-700 font-medium">Design</span>
         </a>
 
-        <a
-          [routerLink]="['/dashboard/insight']"
-          class="flex items-center space-x-3 px-4 py-2 rounded-2xl hover:bg-gray-300 transition-colors cursor-pointer"
-        >
+        <a [routerLink]="['/dashboard/insight']"
+          class="flex items-center space-x-3 px-4 py-2 rounded-2xl hover:bg-gray-300 transition-colors cursor-pointer">
           <lucide-icon name="chart-line" class="w-4 h-4 text-gray-700"></lucide-icon>
           <span class="text-gray-700 font-medium">Insights</span>
         </a>
 
-        <a
-          [routerLink]="['/dashboard/account']"
-          class="flex items-center space-x-3 px-4 py-2 rounded-2xl hover:bg-gray-300 transition-colors cursor-pointer"
-        >
+        <a [routerLink]="['/dashboard/account']"
+          class="flex items-center space-x-3 px-4 py-2 rounded-2xl hover:bg-gray-300 transition-colors cursor-pointer">
           <lucide-icon name="circle-user-round" class="w-4 h-4 text-gray-700"></lucide-icon>
           <span class="text-gray-700 font-medium">Account</span>
         </a>
@@ -59,21 +48,15 @@
 
     <!-- logout -->
     <div class="flex border-t pl-2 border-gray-300">
-      <button
-        (click)="logout()"
-        class="flex items-center gap-2 w-full px-4 py-3 text-red-500 text-lg hover:bg-gray-100 transition"
-      >
+      <button (click)="logout()"
+        class="flex items-center gap-2 w-full px-4 py-3 text-red-500 text-lg hover:bg-gray-100 transition">
         Logout
         <lucide-icon name="log-out" class="w-4 h-4"></lucide-icon>
       </button>
     </div>
   </div>
   <!-- main content -->
-  <div
-    class="flex-1 h-full w-[60%]"
-    [class.w-[63%]]="showRightSidebar"
-    [class.w-[87%]]="!showRightSidebar"
-  >
+  <div class="flex-1 h-full w-[60%]" [class.w-[63%]]="showRightSidebar" [class.w-[87%]]="!showRightSidebar">
     <div class="h-[7%] w-full border-b border-gray-200 flex items-center justify-between px-6">
       <!-- Left: Page Name -->
       <h1 class="text-xl font-semibold text-gray-800">
@@ -86,15 +69,13 @@
       <router-outlet></router-outlet>
     </div>
   </div>
+
+
+
   <!-- side bar -->
-  <div
-    *ngIf="showRightSidebar"
-    class="flex flex-col items-center h-full w-[24%] border-l border-gray-300"
-  >
+  <div *ngIf="showRightSidebar" class="flex flex-col items-center h-full w-[24%] border-l border-gray-300">
     <div class="h-[7%] w-full flex items-center px-15">
-      <div
-        class="bg-white rounded-2xl w-full h-[60%] text-sm font-semibold flex items-center justify-center shadow-sm"
-      >
+      <div class="bg-white rounded-2xl w-full h-[60%] text-sm font-semibold flex items-center justify-center shadow-sm">
         <span class="text-gray-700 font-medium"> linktree/{{ username }} </span>
       </div>
     </div>
@@ -110,19 +91,14 @@
         <!-- Profile picture -->
         <div class="flex flex-col items-center mt-8 gap-2 mb-55">
           <div class="w-16 h-16 bg-gray-400 rounded-full">
-            <img
-              [src]="avatarUrl ? avatarUrl : 'images/user.png'"
-              alt="Profile"
-              class="rounded-full object-cover w-full h-full"
-            />
+            <img [src]="avatarUrl ? avatarUrl : 'images/user.png'" alt="Profile"
+              class="rounded-full object-cover w-full h-full" />
           </div>
-          <span class="text-gray-700 text-sm font-semibold">@{{ name }} </span>
+          <span class="text-gray-700 text-sm font-semibold">{{ name }} </span>
         </div>
 
         <!-- Join button -->
-        <button
-          class="bg-white w-auto text-black text-xs font-semibold px-4 py-2 rounded-full shadow-md"
-        >
+        <button class="bg-white w-auto text-black text-xs font-semibold px-4 py-2 rounded-full shadow-md">
           Create your on Linktree
         </button>
       </div>
