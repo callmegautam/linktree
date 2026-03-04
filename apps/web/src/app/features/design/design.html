@@ -118,10 +118,17 @@
         <p class="text-sm mb-2">Title</p>
         <input
           type="text"
-          [(ngModel)]="title"
+          [(ngModel)]="name"
           class="w-full p-2 h-10 text-sm rounded-xl border bg-white border-gray-300 focus:outline-none focus:ring-1 focus:ring-black"
         />
       </div>
+
+      <!-- button -->
+      <button
+        class="w-full h-10 bg-blue-600 text-white rounded-3xl text-sm hover:opacity-90 transition mb-4"
+      >
+        Save changes
+      </button>
     </ng-container>
 
     <!-- wallpaper page -->
@@ -267,6 +274,13 @@
           [ngStyle]="{ 'background-image': 'url(' + imagePreview + ')' }"
         ></div>
       </div>
+
+      <!-- button -->
+      <button
+        class="w-full h-10 bg-blue-600 text-white rounded-3xl text-sm hover:opacity-90 transition mt-4"
+      >
+        Save changes
+      </button>
     </ng-container>
 
     <!-- buttons page -->
@@ -397,6 +411,11 @@
           />
         </div>
       </div>
+      <button
+        class="w-full h-10 bg-blue-600 text-white rounded-3xl text-sm hover:opacity-90 transition mb-4"
+      >
+        Save changes
+      </button>
     </ng-container>
 
     <!-- text page -->
@@ -461,6 +480,11 @@
           />
         </div>
       </div>
+      <button
+        class="w-full h-10 bg-blue-600 text-white rounded-3xl text-sm hover:opacity-90 transition mt-3"
+      >
+        Save changes
+      </button>
     </ng-container>
 
     <!-- color page -->
@@ -562,6 +586,11 @@
           </div>
         </div>
       </div>
+      <button
+        class="w-full h-10 bg-blue-600 text-white rounded-3xl text-sm hover:opacity-90 transition mt-4"
+      >
+        Save changes
+      </button>
     </ng-container>
   </div>
 </div>

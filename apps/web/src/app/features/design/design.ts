@@ -5,6 +5,7 @@ import { environment } from '@/environment/environment';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { UpdateProfileBody } from '@linktree/validation';
 import { filter, map, Observable } from 'rxjs';
 
 type PageType = 'main' | 'header' | 'wallpaper' | 'buttons' | 'text' | 'colors';
@@ -28,7 +29,7 @@ export class Design {
   pageTextColor = '#000000';
   titleColor = '#000000';
   avatarUrl: string = '';
-  title: string = '';
+  name: string = '';
   selectedFile: File | null = null;
 
   constructor(
@@ -62,7 +63,7 @@ export class Design {
     this.profileService.getProfile().subscribe((res) => {
       console.log('res', res);
       if (res && res.data) {
-        this.title = res.data.display_name ?? 'checkin';
+        this.name = res.data.display_name ?? 'checkin';
 
         if (res.data.avatar_url) {
           this.avatarUrl = `${environment.backend}${res?.data?.avatar_url}`;
