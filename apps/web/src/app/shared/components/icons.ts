@@ -31,6 +31,7 @@ import {
   Blocks,
   LogOut,
   Upload,
+  User,
   Lock,
 } from 'lucide-angular';
 
@@ -67,6 +68,7 @@ import {
       Percent,
       Upload,
       Lock,
+      User,
     }),
   ],
 
