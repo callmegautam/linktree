@@ -26,13 +26,13 @@ export const routes: Routes = [
     path: 'username',
     loadComponent: () => import('./features/username/username').then((m) => m.Username),
   },
-  {
-    path: 'home',
-    loadComponent: () => import('./features/home/home').then((m) => m.Home),
-  },
+  // {
+  //   path: 'home',
+  //   loadComponent: () => import('./features/home/home').then((m) => m.Home),
+  // },
   {
     path: 'dashboard',
-    loadComponent: () => import('./layout/dashboad/dashboard').then((m) => m.dashboardLayout),
+    loadComponent: () => import('./layout/dashboard/dashboard').then((m) => m.dashboardLayout),
     canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'links', pathMatch: 'full' },
@@ -57,6 +57,11 @@ export const routes: Routes = [
         data: { name: 'Account', rightSidebar: false },
       },
     ],
+  },
+
+  {
+    path: '**',
+    loadComponent: () => import('./features/home/home').then((m) => m.Home),
   },
 
   {
