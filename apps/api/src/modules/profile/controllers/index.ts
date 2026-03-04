@@ -3,6 +3,8 @@ import { HttpStatus } from "@/types";
 import { sendError, errorReasonToHttpStatus, sendSuccess, zodError } from "@/utils";
 import { changeUsernameService, getProfileService, updateProfileService } from "../services";
 import { changeUsernameSchema, updateProfileBodySchema } from "@linktree/validation";
+import { Profile } from "@/models/profile";
+import env from "@/config/env";
 
 export const getProfile = async (req: Request, res: Response) => {
   const userId = req?.auth?.id;
@@ -63,3 +65,30 @@ export const changeUsername = async (req: Request, res: Response) => {
 
   return sendSuccess(res, result.data, HttpStatus.OK);
 };
+
+
+export const uploadAvatar = async (req: Request, res: Response) => {
+  const userId = req?.auth?.id;
+  
+  if (!userId) {
+    return sendError(res, 'Unauthorized', HttpStatus.UNAUTHORIZED);
+  }
+
+  if (!req.file) {
+    return res.status(400).json({
+      message: "No file uploaded"
+    });
+  }
+
+  const filePath = `/images/${req.file.filename}`;
+
+
+  await Profile.findOneAndUpdate(
+    { user_id: userId },
+    { $set: { avatar_url: filePath } },
+    { new: true }
+  );
+
+  return sendSuccess(res, {path: filePath}, HttpStatus.OK)
+  
+}

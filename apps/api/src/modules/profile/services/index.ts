@@ -12,6 +12,7 @@ export const getProfileService = async (
     const profile = await Profile.findOne({ user_id: userId });
 
     if (!profile) {
+      console.log("profile", profile);
       return fail('NOT_FOUND', 'User not found');
     }
 
@@ -50,6 +51,8 @@ export const createProfileService = async (
       bio,
       avatar_url,
     });
+
+    console.log("Profile created: ", profile)
 
     const user = await User.findOne({ _id: user_id });
     if (!user) {
@@ -175,3 +178,12 @@ export const changeUsernameService = async (
   }
 };
 
+
+
+// export const uploadAvatarService = async (userId: string, filePath: any) => {
+//   try {
+    
+//   } catch (error) {
+    
+//   }
+// }

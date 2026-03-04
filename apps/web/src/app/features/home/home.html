@@ -1,0 +1,39 @@
+<div class="min-h-screen bg-black flex relative">
+  <div class="flex-1 flex items-center justify-center">
+    <div
+      class="w-105 h-170 bg-[#EFF1F3] rounded-3xl shadow-xl flex flex-col items-center p-6 relative"
+    >
+      <!-- Top icon -->
+      <div class="self-start">
+        <button class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+          <img src="/images/blacklogo.png" class="w-4 h-4" alt="Logo" />
+        </button>
+      </div>
+
+      <!-- Profile picture -->
+      <div class="flex flex-col items-center mt-10 gap-3 mb-90">
+        <div class="w-20 h-20 bg-gray-400 rounded-full">
+          <img
+            src="images/user.png"
+            alt="Profile"
+            class="w-20 h-20 rounded-full border border-gray-300 object-cover"
+          />
+        </div>
+        <span class="text-gray-700 text-lg font-semibold">@{{ userName$ | async }}</span>
+      </div>
+
+      <!-- Join button -->
+      <button
+        class="bg-white w-auto text-black text-sm font-semibold px-10 py-3 rounded-full shadow-md"
+      >
+        Create your on Linktree
+      </button>
+    </div>
+  </div>
+
+  <!-- QR -->
+  <!-- <div class="hidden lg:flex flex-col items-center justify-end pr-5 pb-10">
+    <div class="w-32 h-4 bg-gray-300 rounded mb-4"></div>
+    <div class="w-32 h-32 bg-white shadow-md"></div>
+  </div> -->
+</div>
