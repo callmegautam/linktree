@@ -60,9 +60,9 @@ export class dashboardLayout {
         }
 
         console.log('Hello: ', this.avatarUrl);
-        this.cd.detectChanges();
       }
     });
+    this.cd.detectChanges();
   }
 
   logout() {

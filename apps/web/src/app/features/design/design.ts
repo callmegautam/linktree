@@ -109,4 +109,24 @@ export class Design {
       },
     });
   }
+
+  saveProfile() {
+    const payload: UpdateProfileBody = {
+      display_name: this.name,
+
+      avatar_url: this.avatarUrl.includes(environment.backend)
+        ? this.avatarUrl.replace(environment.backend, '')
+        : (this.avatarUrl ?? ''), // Send the relative URL
+    };
+
+    console.log('payload', payload);
+
+    this.profileService.UpdateProfile(payload).subscribe({
+      next: (res) => {
+        console.log('Profile updated:', res.data);
+        this.cd.detectChanges();
+      },
+      error: (err) => console.error('Update failed:', err),
+    });
+  }
 }
