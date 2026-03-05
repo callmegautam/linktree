@@ -1,7 +1,7 @@
 <div class="min-h-screen flex items-center justify-center">
   <!-- CENTER CARD -->
   <div
-    class="w-105 h-170 rounded-3xl shadow-xl flex flex-col p-6"
+    class="w-130 h-190 rounded-3xl shadow-xl flex flex-col p-6"
     [ngClass]="selectedFont"
     [ngStyle]="{
       background: theme?.background?.value || '#000000',
@@ -10,22 +10,22 @@
   >
     <!-- Top icon -->
     <div class="self-start">
-      <div class="w-8 h-8 rounded-full flex items-center bg-white justify-center">
-        <img src="/images/blacklogo.png" class="w-4 h-4" alt="Logo" />
+      <div class="w-9 h-9 rounded-full flex items-center bg-white justify-center">
+        <img src="/images/blacklogo.png" class="w-5 h-5" alt="Logo" />
       </div>
     </div>
 
     <!-- Profile picture -->
     <div class="flex flex-col items-center mt-10 gap-3 mb-5">
-      <div class="w-20 h-20 rounded-full border border-gray-300 overflow-hidden">
+      <div class="w-25 h-25 rounded-full border border-gray-300 overflow-hidden">
         <img
           [src]="avatarUrl ? avatarUrl : 'images/user.png'"
           alt="Profile"
-          class="w-20 h-20 rounded-full object-cover"
+          class="w-25 h-25 rounded-full object-cover"
         />
       </div>
       <span
-        class="text-lg font-semibold"
+        class="text-xl font-semibold"
         [ngStyle]="{
           color: theme?.text?.titleColor || '#374151',
         }"
@@ -42,7 +42,7 @@
             [href]="link.link"
             target="_blank"
             (click)="incrementLinkClicks(link._id)"
-            class="w-9 h-9 rounded-full shadow-md flex items-center justify-center overflow-hidden transition duration-300"
+            class="w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center overflow-hidden transition duration-300"
           >
             <img
               *ngIf="link.icon"
@@ -65,7 +65,7 @@
     <!-- Create Button always at bottom -->
     <div class="mt-auto w-full flex justify-center mb-3">
       <button
-        class="w-auto text-sm font-semibold px-10 py-3 shadow-md"
+        class="w-auto text-sm font-semibold px-20 py-3 shadow-md"
         [ngClass]="{ 'rounded-full': theme?.button?.radius === 'rounded' }"
         [ngStyle]="{
           'background-color': theme?.button?.color || '#FFFFFF',
