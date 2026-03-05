@@ -86,6 +86,7 @@ export class Home {
         // THEME
 
         this.theme = res.data.theme;
+        console.log(this.theme);
 
         console.log('data: ', {
           name: this.name,

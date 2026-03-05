@@ -10,6 +10,7 @@ import { filter, map, Observable } from 'rxjs';
 import { ChangeDetectorRef, OnInit } from '@angular/core';
 import { ProfileService } from '@/app/core/services/profile-service';
 import { environment } from '@/environment/environment';
+import { RefreshService } from '@/app/core/services/refresh';
 
 @Component({
   selector: 'app-link',
@@ -33,6 +34,7 @@ export class Link implements OnInit {
     private toastr: ToastrService,
     private cd: ChangeDetectorRef,
     private profileService: ProfileService,
+    private refreshService: RefreshService,
   ) {}
 
   socialItems = [
@@ -111,6 +113,7 @@ export class Link implements OnInit {
         this.toastr.success(`${item.platform} link saved successfully!`);
         this.selectedItems.splice(index, 1);
         this.loadLinks();
+        this.refreshService.triggerRefresh();
       },
       error: (err) => {
         this.toastr.error('already exist');
@@ -170,6 +173,7 @@ export class Link implements OnInit {
         }
         this.toastr.success('Link updated successfully');
         this.links = this.links.map((l) => (l._id === res.data!._id ? res.data! : l));
+        this.refreshService.triggerRefresh();
       },
       error: (err) => {
         this.toastr.error('already exist');
@@ -186,6 +190,7 @@ export class Link implements OnInit {
         this.toastr.success('link deleted successfully');
         this.cd.detectChanges();
         console.log('After delete:', this.links);
+        this.refreshService.triggerRefresh();
       },
       error: (err) => {
         this.toastr.error(err);

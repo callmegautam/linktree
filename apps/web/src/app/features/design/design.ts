@@ -1,4 +1,5 @@
 import { ProfileService } from '@/app/core/services/profile-service';
+import { RefreshService } from '@/app/core/services/refresh';
 import { ThemeService } from '@/app/core/services/theme-service';
 import { IconsModule } from '@/app/shared/components/icons';
 import { AuthStore } from '@/app/store/auth';
@@ -45,6 +46,7 @@ export class Design {
     private themeService: ThemeService,
     private toastr: ToastrService,
     private cd: ChangeDetectorRef,
+    private refreshService: RefreshService,
   ) {}
 
   styles = [
@@ -147,7 +149,7 @@ export class Design {
               text?.font && this.fontMap[text.font] ? this.fontMap[text.font] : 'font-sans';
           }
         }
-
+        this.refreshService.triggerRefresh();
         this.cd.detectChanges();
       },
 
@@ -207,6 +209,7 @@ export class Design {
     this.profileService.UpdateProfile(payload).subscribe({
       next: () => {
         this.toastr.success('Profile updated');
+        this.refreshService.triggerRefresh();
       },
 
       error: (err) => {
@@ -253,6 +256,7 @@ export class Design {
     this.themeService.updateTheme(payload).subscribe({
       next: () => {
         this.toastr.success('Theme updated successfully!');
+        this.refreshService.triggerRefresh();
       },
 
       error: (err) => {

@@ -1,5 +1,6 @@
 import { HomeService } from '@/app/core/services/home-service';
 import { ProfileService } from '@/app/core/services/profile-service';
+import { RefreshService } from '@/app/core/services/refresh';
 import { IconsModule } from '@/app/shared/components/icons';
 import { AuthStore } from '@/app/store/auth';
 import { environment } from '@/environment/environment';
@@ -60,6 +61,7 @@ export class dashboardLayout {
     private profileService: ProfileService,
     private homeService: HomeService,
     private cd: ChangeDetectorRef,
+    private refreshService: RefreshService,
   ) {
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       let currentRoute = this.route;
@@ -72,7 +74,7 @@ export class dashboardLayout {
     });
   }
 
-  ngOnInit(): void {
+  loadData() {
     this.profileService.getProfile().subscribe((res) => {
       console.log('res', res);
 
@@ -108,9 +110,18 @@ export class dashboardLayout {
 
             this.theme = homeRes.data.theme;
           }
+          console.log('THEME: ', this.theme);
           this.cd.detectChanges();
         });
       }
+    });
+  }
+
+  ngOnInit(): void {
+    this.refreshService.refresh$.subscribe(() => {
+      // Put your re-render logic here
+      // For example, reload data or trigger change detection
+      this.loadData();
     });
   }
 

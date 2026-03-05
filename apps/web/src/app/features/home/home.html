@@ -1,23 +1,36 @@
-<div class="min-h-screen bg-black flex items-center justify-center">
+<div class="min-h-screen flex items-center justify-center">
   <!-- CENTER CARD -->
-  <div class="w-105 h-170 bg-[#EFF1F3] rounded-3xl shadow-xl flex flex-col p-6">
+  <div
+    class="w-105 h-170 rounded-3xl shadow-xl flex flex-col p-6"
+    [ngStyle]="{
+      background: theme?.background?.value || '#000000',
+      'background-color': theme?.text?.pageColor || '#EFF1F3',
+    }"
+  >
     <!-- Top icon -->
     <div class="self-start">
-      <button class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+      <div class="w-8 h-8 rounded-full flex items-center bg-white justify-center">
         <img src="/images/blacklogo.png" class="w-4 h-4" alt="Logo" />
-      </button>
+      </div>
     </div>
 
     <!-- Profile picture -->
     <div class="flex flex-col items-center mt-10 gap-3 mb-5">
-      <div class="w-20 h-20 bg-gray-400 rounded-full">
+      <div class="w-20 h-20 rounded-full border border-gray-300 overflow-hidden">
         <img
           [src]="avatarUrl ? avatarUrl : 'images/user.png'"
           alt="Profile"
-          class="w-20 h-20 rounded-full border border-gray-300 object-cover"
+          class="w-20 h-20 rounded-full object-cover"
         />
       </div>
-      <span class="text-gray-700 text-lg font-semibold">{{ name }}</span>
+      <span
+        class="text-lg font-semibold"
+        [ngStyle]="{
+          color: theme?.text?.titleColor || '#374151',
+        }"
+      >
+        {{ name }}
+      </span>
     </div>
 
     <!-- Links -->
@@ -27,9 +40,8 @@
           <a
             [href]="link.link"
             target="_blank"
-            class="bg-white w-9 h-9 rounded-full shadow-md hover:shadow-lg transition duration-300 flex items-center justify-center overflow-hidden"
+            class="w-9 h-9 rounded-full shadow-md flex items-center justify-center overflow-hidden transition duration-300"
           >
-            <!-- Show image if provided -->
             <img
               *ngIf="link.icon"
               [src]="link.icon"
@@ -51,7 +63,12 @@
     <!-- Create Button always at bottom -->
     <div class="mt-auto w-full flex justify-center mb-3">
       <button
-        class="bg-white w-auto text-black text-sm font-semibold px-10 py-3 rounded-full shadow-md"
+        class="w-auto text-sm font-semibold px-10 py-3 shadow-md"
+        [ngClass]="{ 'rounded-full': theme?.button?.radius === 'rounded' }"
+        [ngStyle]="{
+          'background-color': theme?.button?.color || '#FFFFFF',
+          color: theme?.button?.textColor || '#000000',
+        }"
       >
         Create your own Linktree
       </button>
