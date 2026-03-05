@@ -18,10 +18,10 @@ export class HomeService {
   }
 
   incrementHomePageClicks(username: string): Observable<ApiResponse<void>> {
-    return this.http.post<ApiResponse<void>>(`${this.API_URL}/increment`, { username });
+    return this.http.post<ApiResponse<void>>(`${environment.apicall}/clicks/home/${username}`, {});
   }
 
-  incrementLinkClicks(username: string, linkId: string): Observable<ApiResponse<void>> {
-    return this.http.post<ApiResponse<void>>(`${this.API_URL}/increment`, { username, linkId });
+  incrementLinkClicks(linkId: string): Observable<ApiResponse<void>> {
+    return this.http.post<ApiResponse<void>>(`${environment.apicall}/clicks/link/${linkId}`, {});
   }
 }

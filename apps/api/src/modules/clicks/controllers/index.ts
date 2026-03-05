@@ -32,11 +32,7 @@ export const incrementClickController = async (req: Request, res: Response) => {
       );
     }
 
-    return sendSuccess(
-      res,
-      "Click incremented successfully",
-      HttpStatus.CREATED,
-    );
+    return sendSuccess(res, result.data, HttpStatus.CREATED);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Internal server error" });
@@ -63,11 +59,7 @@ export const incrementHomePageClicksController = async (
         errorReasonToHttpStatus(result.reason),
       );
     }
-    return sendSuccess(
-      res,
-      "Home page clicks incremented successfully",
-      HttpStatus.CREATED,
-    );
+    return sendSuccess(res, result.data, HttpStatus.CREATED);
   } catch (error) {
     console.log(error);
     return sendError(

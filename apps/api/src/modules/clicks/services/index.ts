@@ -21,8 +21,17 @@ export const increaseHomePageClicksService = async (
     if (!user) {
       return fail("NOT_FOUND", "User not found");
     }
-    await Profile.updateOne({ user_id: user._id }, { $inc: { clicks: 1 } });
-    return ok("Home page clicks incremented successfully");
+    const profile = await Profile.findOneAndUpdate(
+      { user_id: user._id },
+      { $inc: { clicks: 1 } },
+      { new: true },
+    );
+    if (!profile) {
+      return fail("NOT_FOUND", "Profile not found");
+    }
+    return ok(
+      `${user.username}'s home page clicks increased to ${profile.clicks}`,
+    );
   } catch (error) {
     console.log(error);
     return fail("DB_ERROR", "Failed to increase home page clicks");
@@ -49,7 +58,7 @@ export const increaseLinkClicksService = async ({
     if (!clickCount) {
       return fail("NOT_FOUND", "Click count not found");
     }
-    return ok("Link clicks incremented successfully");
+    return ok(`${link.title}'s link clicks increased to ${clickCount.clicks}`);
   } catch (error) {
     console.log(error);
     return fail("DB_ERROR", "Failed to increase link clicks");

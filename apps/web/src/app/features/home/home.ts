@@ -55,10 +55,10 @@ export class Home {
 
   ngOnInit(): void {
     const path = this.router.url;
-    console.log(path.slice(1));
+    // console.log(path.slice(1));
 
     this.homeService.getHomePage(path.slice(1)).subscribe((res) => {
-      console.log('res', res);
+      // console.log('res', res);
       if (res && res.data) {
         // PROFILE
 
@@ -86,17 +86,31 @@ export class Home {
         // THEME
 
         this.theme = res.data.theme;
-        console.log(this.theme);
+        // console.log(this.theme);
 
-        console.log('data: ', {
-          name: this.name,
-          username: this.username,
-          avatarUrl: this.avatarUrl,
-          links: this.links,
-          theme: this.theme,
-        });
+        // console.log('data: ', {
+        //   name: this.name,
+        //   username: this.username,
+        //   avatarUrl: this.avatarUrl,
+        //   links: this.links,
+        //   theme: this.theme,
+        // });
 
         this.cd.detectChanges();
+      }
+    });
+
+    this.homeService.incrementHomePageClicks(path.slice(1)).subscribe((res) => {
+      if (res && res.data) {
+        console.log(res.data);
+      }
+    });
+  }
+
+  incrementLinkClicks(linkId: string) {
+    this.homeService.incrementLinkClicks(linkId).subscribe((res) => {
+      if (res && res.data) {
+        console.log(res.data);
       }
     });
   }
