@@ -4,6 +4,6 @@ import { asyncHandler } from "@/utils";
 
 const router = Router();
 
-router.get('/:username', asyncHandler(getHomePage));
+router.get("/:username", asyncHandler(getHomePage));
 
 export default router;

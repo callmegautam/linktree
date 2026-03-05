@@ -16,4 +16,12 @@ export class HomeService {
   getHomePage(username: string): Observable<ApiResponse<HomePageResponse>> {
     return this.http.get<ApiResponse<HomePageResponse>>(`${this.API_URL}/${username}`);
   }
+
+  incrementHomePageClicks(username: string): Observable<ApiResponse<void>> {
+    return this.http.post<ApiResponse<void>>(`${this.API_URL}/increment`, { username });
+  }
+
+  incrementLinkClicks(username: string, linkId: string): Observable<ApiResponse<void>> {
+    return this.http.post<ApiResponse<void>>(`${this.API_URL}/increment`, { username, linkId });
+  }
 }

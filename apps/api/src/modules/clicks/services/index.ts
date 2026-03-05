@@ -1,28 +1,28 @@
 import { ClickCounts } from "@/models/clicks";
 import { Links, type PlatformType } from "@/models/links";
 import { Profile } from "@/models/profile";
+import { User } from "@/models/users";
 import { fail, ok, Result } from "@/utils/result";
 import { Types } from "mongoose";
 
 export type IncrementClick = {
   // userId: string;
   linkId: string;
-  platform: PlatformType;
+  // platform: PlatformType;
   //   country: string;
   //   state: string;
 };
 
-export const increaeHomePageClicksService = async (
-  userId: string,
-): Promise<Result<void>> => {
+export const increaseHomePageClicksService = async (
+  username: string,
+): Promise<Result<string>> => {
   try {
-    const profile = await Profile.findOne({ user_id: userId });
-    if (!profile) {
-      return fail("NOT_FOUND", "Profile not found");
+    const user = await User.findOne({ username });
+    if (!user) {
+      return fail("NOT_FOUND", "User not found");
     }
-    profile.clicks++;
-    await profile.save();
-    return ok(undefined);
+    await Profile.updateOne({ user_id: user._id }, { $inc: { clicks: 1 } });
+    return ok("Home page clicks incremented successfully");
   } catch (error) {
     console.log(error);
     return fail("DB_ERROR", "Failed to increase home page clicks");
@@ -31,19 +31,17 @@ export const increaeHomePageClicksService = async (
 
 export const increaseLinkClicksService = async ({
   linkId,
-  platform,
-}: IncrementClick): Promise<Result<void>> => {
+}: IncrementClick): Promise<Result<string>> => {
   try {
     const link = await Links.findOne({ _id: linkId });
     if (!link) {
       return fail("NOT_FOUND", "Link not found");
     }
-    const userId = link.user_id;
 
     const clickCount = await ClickCounts.create({
-      user_id: userId,
+      user_id: link.user_id,
       link_id: linkId,
-      platform: platform,
+      platform: link.platform,
       clicks: 1,
       country: "IN",
       state: "MH",
@@ -51,7 +49,7 @@ export const increaseLinkClicksService = async ({
     if (!clickCount) {
       return fail("NOT_FOUND", "Click count not found");
     }
-    return ok(undefined);
+    return ok("Link clicks incremented successfully");
   } catch (error) {
     console.log(error);
     return fail("DB_ERROR", "Failed to increase link clicks");

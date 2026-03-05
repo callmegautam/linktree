@@ -8,14 +8,14 @@ const objectId = z
 export const createClickCountSchema = z.object({
   // user_id: objectId,
   link_id: objectId,
-  platform: z.enum(PLATFORM_ENUM),
+  // platform: z.enum(PLATFORM_ENUM),
   // country: z.string().min(1).max(2), // ISO-3166-1 alpha-2
   // state: z.string().min(1).max(50),
 });
 
 export const incrementClickSchema = z.object({
   link_id: objectId,
-  platform: z.enum(PLATFORM_ENUM),
+  // platform: z.enum(PLATFORM_ENUM),
   // country: z.string().min(1).max(2),
   // state: z.string().min(1).max(50),
 });
