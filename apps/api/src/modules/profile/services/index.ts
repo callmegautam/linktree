@@ -1,18 +1,24 @@
-import { Profile } from "@/models/profile";
-import { User } from "@/models/users";
-import { createThemeService } from "@/modules/theme/services";
-import { generateToken } from "@/utils";
-import { fail, ok, Result } from "@/utils/result";
-import { ChangeUsernameBody, CreateProfileBody, ProfileResponse, UpdateProfileBody, UserResponse } from "@linktree/validation";
+import { Profile } from '@/models/profile';
+import { User } from '@/models/users';
+import { createThemeService } from '@/modules/theme/services';
+import { generateToken } from '@/utils';
+import { fail, ok, Result } from '@/utils/result';
+import {
+  ChangeUsernameBody,
+  CreateProfileBody,
+  ProfileResponse,
+  UpdateProfileBody,
+  UserResponse,
+} from '@linktree/validation';
 
 export const getProfileService = async (
-  userId: string,
+  userId: string
 ): Promise<Result<ProfileResponse>> => {
   try {
     const profile = await Profile.findOne({ user_id: userId });
 
     if (!profile) {
-      console.log("profile", profile);
+      console.log('profile', profile);
       return fail('NOT_FOUND', 'User not found');
     }
 
@@ -29,6 +35,7 @@ export const getProfileService = async (
       avatar_url: profile.avatar_url || null,
       created_at: profile.created_at,
       updated_at: profile.updated_at,
+      clicks: 0, //todo gautam
     };
 
     return ok(response);
@@ -38,9 +45,8 @@ export const getProfileService = async (
   }
 };
 
-
 export const createProfileService = async (
-  data: CreateProfileBody,
+  data: CreateProfileBody
 ): Promise<Result<ProfileResponse>> => {
   try {
     const { user_id, display_name, bio, avatar_url } = data;
@@ -52,7 +58,7 @@ export const createProfileService = async (
       avatar_url,
     });
 
-    console.log("Profile created: ", profile)
+    console.log('Profile created: ', profile);
 
     const user = await User.findOne({ _id: user_id });
     if (!user) {
@@ -67,25 +73,26 @@ export const createProfileService = async (
       avatar_url: profile.avatar_url || null,
       created_at: profile.created_at,
       updated_at: profile.updated_at,
+      clicks: 0, //todo gautam
     };
 
     await createThemeService(user_id, {
       background: {
-        type: "gradient",
-        value: "linear-gradient(135deg, #1e293b, #0f172a)",
+        type: 'gradient',
+        value: 'linear-gradient(135deg, #1e293b, #0f172a)',
       },
 
       button: {
-        variant: "solid",
-        radius: "rounded",
-        color: "#6366f1",      // Indigo-500 vibe
-        textColor: "#ffffff",
+        variant: 'solid',
+        radius: 'rounded',
+        color: '#6366f1', // Indigo-500 vibe
+        textColor: '#ffffff',
       },
 
       text: {
-        font: "Inter",
-        pageColor: "#e2e8f0",  // Soft slate-200
-        titleColor: "#ffffff",
+        font: 'Inter',
+        pageColor: '#e2e8f0', // Soft slate-200
+        titleColor: '#ffffff',
       },
     });
 
@@ -98,23 +105,28 @@ export const createProfileService = async (
 
 export const updateProfileService = async (
   userId: string,
-  data: UpdateProfileBody,
+  data: UpdateProfileBody
 ): Promise<Result<ProfileResponse>> => {
   try {
-
     const isUsernameExists = await User.findOne({ username: data.username }).lean();
 
     if (isUsernameExists && isUsernameExists._id.toString() !== userId) {
       return fail('ALREADY_EXISTS', 'Username already exists');
     }
 
-    const user = await User.findOneAndUpdate({ _id: userId }, { username: data.username }, { new: true });
+    const user = await User.findOneAndUpdate(
+      { _id: userId },
+      { username: data.username },
+      { new: true }
+    );
 
     if (!user) {
       return fail('NOT_FOUND', 'User not found');
     }
 
-    const profile = await Profile.findOneAndUpdate({ user_id: userId }, data, { new: true });
+    const profile = await Profile.findOneAndUpdate({ user_id: userId }, data, {
+      new: true,
+    });
 
     if (!profile) {
       return fail('NOT_FOUND', 'Profile not found');
@@ -128,6 +140,7 @@ export const updateProfileService = async (
       avatar_url: profile.avatar_url || null,
       created_at: profile.created_at,
       updated_at: profile.updated_at,
+      clicks: 0, //todo gautam
     };
 
     return ok(response);
@@ -139,17 +152,20 @@ export const updateProfileService = async (
 
 export const changeUsernameService = async (
   userId: string,
-  data: ChangeUsernameBody,
+  data: ChangeUsernameBody
 ): Promise<Result<UserResponse>> => {
   try {
-
     const isUsernameExists = await User.findOne({ username: data.username }).lean();
 
     if (isUsernameExists && isUsernameExists._id.toString() !== userId) {
       return fail('ALREADY_EXISTS', 'Username already exists');
     }
 
-    const user = await User.findOneAndUpdate({ user_id: userId }, { username: data.username }, { new: true });
+    const user = await User.findOneAndUpdate(
+      { user_id: userId },
+      { username: data.username },
+      { new: true }
+    );
 
     if (!user) {
       return fail('NOT_FOUND', 'User not found');
@@ -158,8 +174,7 @@ export const changeUsernameService = async (
     const token = generateToken({
       id: user._id.toString(),
       email: user.email,
-    })
-
+    });
 
     const response: UserResponse = {
       id: user._id.toString(),
@@ -178,12 +193,10 @@ export const changeUsernameService = async (
   }
 };
 
-
-
 // export const uploadAvatarService = async (userId: string, filePath: any) => {
 //   try {
-    
+
 //   } catch (error) {
-    
+
 //   }
 // }
