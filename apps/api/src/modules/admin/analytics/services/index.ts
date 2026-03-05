@@ -2,40 +2,12 @@ import { ClickCounts } from "@/models/clicks";
 import { Links, type PlatformType } from "@/models/links";
 import { User, UserDocument } from "@/models/users";
 import { fail, ok, Result } from "@/utils";
-
-export type Analytics = {
-  totalUsers: number;
-  totalLinks: number;
-  totalClicks: number;
-  activeUsers: number;
-};
-
-export type RecentActivity = {
-  user: string;
-  link: {
-    title: string;
-    link: string;
-    platform: PlatformType;
-  };
-  clicks: number;
-  date: string;
-};
-
-export type TopPerformingLinks = {
-  link: {
-    title: string;
-    link: string;
-    platform: string;
-  };
-  clicks: number;
-  date: string;
-};
-
-export type AnalyticsResponse = {
-  analytics: Analytics;
-  recentActivity: RecentActivity[];
-  topPerformingLinks: TopPerformingLinks[];
-};
+import {
+  AnalyticsResponse,
+  Analytics,
+  RecentActivity,
+  TopPerformingLinks,
+} from "@linktree/validation";
 
 export const getAnalyticsService = async (): Promise<
   Result<AnalyticsResponse>

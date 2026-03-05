@@ -58,11 +58,25 @@ export const routes: Routes = [
     ],
   },
 
+  // {
+  //   path: 'admindashboard',
+  //   loadComponent: () =>
+  //     import('./layout/admindashboard/admindashboard').then((m) => m.admindashboardLayout),
+  //   // canActivate: [AdminAuthGuard],
+  //   children: [
+  //     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  //     { path: 'dashboard', component: Dashboard, data: { name: 'Dashboard' } },
+  //     { path: 'user', component: User, data: { name: 'Users' } },
+  //     { path: 'link', component: LinkComponent, data: { name: 'links' } },
+  //   ],
+  // },
+
   {
-    path: 'admindashboard',
+    path: 'admin',
     loadComponent: () =>
       import('./layout/admindashboard/admindashboard').then((m) => m.admindashboardLayout),
     // canActivate: [AdminAuthGuard],
+    canActivateChild: [AdminAuthGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: Dashboard, data: { name: 'Dashboard' } },
