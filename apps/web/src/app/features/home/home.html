@@ -40,6 +40,7 @@
           <a
             [href]="link.link"
             target="_blank"
+            (click)="incrementLinkClicks(link._id)"
             class="w-9 h-9 rounded-full shadow-md flex items-center justify-center overflow-hidden transition duration-300"
           >
             <img

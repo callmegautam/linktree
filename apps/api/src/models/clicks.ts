@@ -1,5 +1,6 @@
 import { Types, Document, Schema, model } from "mongoose";
 import { PlatformType } from "./links";
+import { PLATFORM_ENUM } from "@linktree/validation";
 
 export interface ClickCountsDocument extends Document {
   _id: Types.ObjectId;
@@ -19,17 +20,15 @@ const ClickCountSchema = new Schema<ClickCountsDocument>(
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
-      index: true,
     },
     link_id: {
       type: Schema.Types.ObjectId,
       ref: "Link",
       required: true,
-      index: true,
     },
     platform: {
       type: String,
-      enum: ["instagram", "x", "linkedin", "self"],
+      enum: PLATFORM_ENUM,
       required: true,
     },
     clicks: { type: Number, default: 0, min: 0 },
@@ -40,10 +39,10 @@ const ClickCountSchema = new Schema<ClickCountsDocument>(
 );
 
 // Compound index for fast lookups by link + platform + location
-ClickCountSchema.index(
-  { link_id: 1, platform: 1, country: 1, state: 1 },
-  { unique: true },
-);
+// ClickCountSchema.index(
+//   { link_id: 1, platform: 1, country: 1, state: 1 },
+//   { unique: true },
+// );
 
 export const ClickCounts = model<ClickCountsDocument>(
   "ClickCounts",

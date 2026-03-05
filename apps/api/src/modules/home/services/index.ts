@@ -3,7 +3,6 @@ import { User } from "@/models/users";
 import { Profile } from "@/models/profile";
 import { ThemeModel } from "@/models/theme";
 import { Links } from "@/models/links";
-import { increaeHomePageClicksService } from "@/modules/clicks/services";
 
 export const getHomePageService = async (
   username: string,
@@ -25,8 +24,6 @@ export const getHomePageService = async (
     if (!links) {
       return fail("NOT_FOUND", "Links not found");
     }
-
-    await increaeHomePageClicksService(user._id.toString());
 
     return ok({
       user,

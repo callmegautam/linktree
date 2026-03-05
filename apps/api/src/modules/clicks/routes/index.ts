@@ -1,9 +1,12 @@
 import { Router } from "express";
-import { incrementClickController } from "../controllers";
+import {
+  incrementClickController,
+  incrementHomePageClicksController,
+} from "../controllers";
 import { asyncHandler } from "@/utils";
 
 const router = Router();
 
-router.post("/increment", asyncHandler(incrementClickController));
-
+router.post("/link/:link", asyncHandler(incrementClickController));
+router.post("/home/:username", asyncHandler(incrementHomePageClicksController));
 export default router;
