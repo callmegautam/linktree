@@ -1,8 +1,36 @@
 @import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Inter&family=Poppins&family=Roboto&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  .font-inter {
+    font-family: 'Inter', sans-serif;
+  }
+  .font-sans {
+    font-family: 'Sans', sans-serif;
+  }
+  .font-poppins {
+    font-family: 'Poppins', sans-serif;
+  }
+  .font-roboto {
+    font-family: 'Roboto', sans-serif;
+  }
+  .font-montserrat {
+    font-family: 'Montserrat', sans-serif;
+  }
+  .font-lato {
+    font-family: 'Lato', sans-serif;
+  }
+  .font-link-sans {
+    font-family: 'Link Sans', sans-serif;
+  }
+  .font-serif {
+    font-family: 'Serif', serif;
+  }
+  .font-mono {
+    font-family: 'Mono', monospace;
+  }
   #toast-container {
     position: fixed !important;
     bottom: 20px !important;

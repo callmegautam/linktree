@@ -247,7 +247,7 @@ export class Design {
       },
 
       text: {
-        font: 'Link Sans',
+        font: this.fonts.find((f) => f.value === this.selectedFont)?.name ?? 'Sans',
         pageColor: this.pageTextColor,
         titleColor: this.titleColor,
       },

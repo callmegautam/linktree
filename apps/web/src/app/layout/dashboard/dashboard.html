@@ -85,10 +85,10 @@
     <div class="flex justify-center h-[90%] w-full">
       <div
         class="w-80 h-160 rounded-3xl shadow-xl flex flex-col p-6"
+        [ngClass]="theme?.selectedFont"
         [ngStyle]="{
           background: theme?.background?.value || '#000000',
           'background-color': theme?.text?.pageColor || '#EFF1F3',
-          'font-family': theme?.text?.font ? `'${theme.text.font}'` : 'sans-serif',
         }"
       >
         <!-- Top icon -->
