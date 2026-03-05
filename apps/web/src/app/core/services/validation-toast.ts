@@ -34,7 +34,7 @@ export class ValidationToastService {
         return false;
       }
       if (password.errors?.['maxlength']) {
-        this.toastr.error('Password cannot exceed 20 characters');
+        this.toastr.error('Password cannot exceed 30 characters');
         return false;
       }
       const value = password.value as string;

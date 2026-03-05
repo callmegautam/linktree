@@ -1,15 +1,18 @@
+import { AuthService } from '@/app/core/services/auth';
 import { ProfileService } from '@/app/core/services/profile-service';
 import { AuthStore } from '@/app/store/auth';
 import { environment } from '@/environment/environment';
+import { CommonModule } from '@angular/common';
 // import { AsyncPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UpdateProfileBody } from '@linktree/validation';
 // import { filter, map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-account',
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './account.html',
 })
 export class Account implements OnInit {
@@ -26,6 +29,8 @@ export class Account implements OnInit {
     private authStore: AuthStore,
     private profileService: ProfileService,
     private cd: ChangeDetectorRef,
+    private authService: AuthService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -123,6 +128,24 @@ export class Account implements OnInit {
         this.cd.detectChanges();
       },
       error: (err) => console.error('Update failed:', err),
+    });
+  }
+  showDeletePopup = false;
+
+  openDeletePopup() {
+    this.showDeletePopup = true;
+  }
+
+  closeDeletePopup() {
+    this.showDeletePopup = false;
+  }
+
+  deleteAccount() {
+    this.authService.deleteUser().subscribe({
+      next: () => {
+        this.closeDeletePopup();
+        this.router.navigate(['/login']);
+      },
     });
   }
 }

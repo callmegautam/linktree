@@ -37,8 +37,8 @@ export class Register {
     ]),
     username: new FormControl('', [
       Validators.required,
-      Validators.minLength(5),
-      Validators.maxLength(20),
+      Validators.minLength(3),
+      Validators.maxLength(30),
     ]),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [
