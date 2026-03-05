@@ -3,19 +3,19 @@
   <div class="grid grid-cols-4 gap-6 mb-6">
     <div class="bg-white rounded-2xl shadow p-4">
       <div class="text-gray-500 text-sm">Total Users</div>
-      <div class="text-2xl font-bold">12,540</div>
+      <div class="text-2xl font-bold">{{ analytics?.analytics?.totalUsers || 0 }}</div>
     </div>
     <div class="bg-white rounded-2xl shadow p-4">
       <div class="text-gray-500 text-sm">Total Links</div>
-      <div class="text-2xl font-bold">28,420</div>
+      <div class="text-2xl font-bold">{{ analytics?.analytics?.totalLinks || 0 }}</div>
     </div>
     <div class="bg-white rounded-2xl shadow p-4">
       <div class="text-gray-500 text-sm">Total Clicks</div>
-      <div class="text-2xl font-bold">175,890</div>
+      <div class="text-2xl font-bold">{{ analytics?.analytics?.totalClicks || 0 }}</div>
     </div>
     <div class="bg-white rounded-2xl shadow p-4">
       <div class="text-gray-500 text-sm">Active Users</div>
-      <div class="text-2xl font-bold">8,120</div>
+      <div class="text-2xl font-bold">{{ analytics?.analytics?.activeUsers || 0 }}</div>
     </div>
   </div>
 
@@ -33,7 +33,7 @@
       <div class="w-32 h-32 bg-gray-100 rounded-full">
         <!-- Placeholder for Donut Chart -->
       </div>
-      <div class="mt-4 text-gray-500">New Signups: 315 This Week</div>
+      <div class="mt-4 text-gray-500">Active Users: {{ analytics?.analytics?.activeUsers ?? 0 }}</div>
     </div>
   </div>
 
@@ -52,18 +52,14 @@
           </tr>
         </thead>
         <tbody class="text-gray-700">
-          <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
-            <td class="py-2 px-4 font-medium">JohnDoe</td>
-            <td class="py-2 px-4">Personal Site</td>
-            <td class="py-2 px-4">150</td>
-            <td class="py-2 px-4">Today</td>
-          </tr>
-          <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
-            <td class="py-2 px-4 font-medium">JaneSmith</td>
-            <td class="py-2 px-4">Blog Post</td>
-            <td class="py-2 px-4">120</td>
-            <td class="py-2 px-4">Yesterday</td>
-          </tr>
+          @for (activity of analytics?.recentActivity ?? []; track activity.user + activity.link.title + activity.date) {
+            <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
+              <td class="py-2 px-4 font-medium">{{ activity.user }}</td>
+              <td class="py-2 px-4">{{ activity.link.title }}</td>
+              <td class="py-2 px-4">{{ activity.clicks }}</td>
+              <td class="py-2 px-4">{{ activity.date | date:'short' }}</td>
+            </tr>
+          }
         </tbody>
       </table>
     </div>
@@ -75,32 +71,16 @@
       </div>
 
       <ul class="space-y-3">
-        <li
-          class="flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
-        >
-          <div class="flex items-center gap-3">
-            <span class="font-medium text-gray-700">Blog Homepage</span>
-          </div>
-          <span class="text-gray-500 font-semibold">3,210 Clicks</span>
-        </li>
-
-        <li
-          class="flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
-        >
-          <div class="flex items-center gap-3">
-            <span class="font-medium text-gray-700">Music Playlist</span>
-          </div>
-          <span class="text-gray-500 font-semibold">2,890 Clicks</span>
-        </li>
-
-        <li
-          class="flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
-        >
-          <div class="flex items-center gap-3">
-            <span class="font-medium text-gray-700">Portfolio Site</span>
-          </div>
-          <span class="text-gray-500 font-semibold">2,560 Clicks</span>
-        </li>
+        @for (item of analytics?.topPerformingLinks ?? []; track item.link.title + item.clicks) {
+          <li
+            class="flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
+          >
+            <div class="flex items-center gap-3">
+              <span class="font-medium text-gray-700">{{ item.link.title }}</span>
+            </div>
+            <span class="text-gray-500 font-semibold">{{ item.clicks | number }} Clicks</span>
+          </li>
+        }
       </ul>
     </div>
   </div>
