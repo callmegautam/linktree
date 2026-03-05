@@ -1,4 +1,8 @@
 <div class="flex flex-col p-6 overflow-y-auto">
+  @if (error) {
+    <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">{{ error }}</div>
+  }
+
   <!-- Link Stats Cards -->
   <div class="grid grid-cols-3 gap-6 mb-6">
     <div class="bg-white rounded-2xl shadow p-4 text-center">
@@ -11,7 +15,7 @@
     </div>
     <div class="bg-white rounded-2xl shadow p-4 text-center">
       <div class="text-gray-500 text-sm">Active Links</div>
-      <div class="text-2xl font-bold">{{ activeLinks }}</div>
+      <div class="text-2xl font-bold">{{ activeLinksCount }}</div>
     </div>
   </div>
 
@@ -51,55 +55,67 @@
 
   <!-- Links Table -->
   <div class="bg-white rounded-2xl shadow p-4 overflow-x-auto">
-    <table class="w-full text-center min-w-225">
-      <thead>
-        <tr class="border-b border-gray-200">
-          <th class="py-2 px-2">Link Title</th>
-          <th class="py-2 px-2">URL</th>
-          <th class="py-2 px-2">Owner</th>
-          <th class="py-2 px-2">Clicks</th>
-          <th class="py-2 px-2">Status</th>
-          <th class="py-2 px-2">Block/Unblock</th>
-          <th class="py-2 px-2">Delete</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let link of filteredLinks" class="border-b border-gray-100 hover:bg-gray-50">
-          <td class="py-2 px-2">{{ link.title }}</td>
-          <td class="py-2 px-2">
-            <a href="{{ link.url }}" target="_blank" class="text-blue-600 hover:underline">
-              {{ link.url }}
-            </a>
-          </td>
-          <td class="py-2 px-2">{{ link.owner }}</td>
-          <td class="py-2 px-2">{{ link.clicks }}</td>
-          <td class="py-2 px-2">{{ link.status }}</td>
+    @if (loading) {
+      <div class="py-8 text-center text-gray-500">Loading links...</div>
+    } @else {
+      <table class="w-full text-center min-w-225">
+        <thead>
+          <tr class="border-b border-gray-200">
+            <th class="py-2 px-2">Link Title</th>
+            <th class="py-2 px-2">URL</th>
+            <th class="py-2 px-2">Owner</th>
+            <th class="py-2 px-2">Clicks</th>
+            <th class="py-2 px-2">Status</th>
+            <th class="py-2 px-2">Block/Unblock</th>
+            <th class="py-2 px-2">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (link of filteredLinks; track link.id) {
+            <tr class="border-b border-gray-100 hover:bg-gray-50">
+              <td class="py-2 px-2">{{ link.title }}</td>
+              <td class="py-2 px-2">
+                <a [href]="link.link" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">
+                  {{ link.link }}
+                </a>
+              </td>
+              <td class="py-2 px-2">{{ link.owner }}</td>
+              <td class="py-2 px-2">{{ link.clicks }}</td>
+              <td class="py-2 px-2">
+                <span [ngClass]="link.isBlocked ? 'text-red-600' : 'text-green-600'">
+                  {{ link.isBlocked ? 'Blocked' : 'Active' }}
+                </span>
+              </td>
 
-          <!-- Block/Unblock Button -->
-          <td class="py-2 px-2">
-            <button
-              (click)="blockUnblockLink(link)"
-              class="px-3 py-1 rounded-lg text-white transition"
-              [ngClass]="{
-                'bg-red-500 hover:bg-red-600': link.status === 'Active',
-                'bg-green-500 hover:bg-green-600': link.status === 'Blocked',
-              }"
-            >
-              {{ link.status === 'Active' ? 'Block' : 'Unblock' }}
-            </button>
-          </td>
+              <!-- Block/Unblock Button -->
+              <td class="py-2 px-2">
+                <button
+                  (click)="blockUnblockLink(link)"
+                  [disabled]="togglingId === link.id"
+                  class="px-3 py-1 rounded-lg text-white transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  [ngClass]="{
+                    'bg-red-500 hover:bg-red-600': !link.isBlocked,
+                    'bg-green-500 hover:bg-green-600': link.isBlocked,
+                  }"
+                >
+                  {{ togglingId === link.id ? '...' : (link.isBlocked ? 'Unblock' : 'Block') }}
+                </button>
+              </td>
 
-          <!-- Delete Button -->
-          <td class="py-2 px-2">
-            <button
-              (click)="deleteLink(link)"
-              class="px-3 py-1 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition"
-            >
-              Delete
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+              <!-- Delete Button -->
+              <td class="py-2 px-2">
+                <button
+                  (click)="deleteLink(link)"
+                  [disabled]="deletingId === link.id"
+                  class="px-3 py-1 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {{ deletingId === link.id ? '...' : 'Delete' }}
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
   </div>
 </div>

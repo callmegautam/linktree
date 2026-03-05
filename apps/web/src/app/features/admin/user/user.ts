@@ -1,5 +1,7 @@
+import { AdminUsersService } from '@/app/core/services/admin/users-service';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { AdminUsersResponse } from '@linktree/validation';
 
 @Component({
   selector: 'app-user',
@@ -8,42 +10,57 @@ import { Component } from '@angular/core';
 })
 export class User {
   filter: 'all' | 'active' | 'blocked' = 'all';
+  users: AdminUsersResponse[] = [];
+  loading = true;
+  error: string | null = null;
+  togglingId: string | null = null;
 
-  users = [
-    {
-      name: 'John Doe',
-      username: 'johndoe',
-      email: 'john@example.com',
-      linkTitle: 'Personal Blog',
-      clicks: 120,
-      status: 'Active',
-    },
-    {
-      name: 'Jane Smith',
-      username: 'janesmith',
-      email: 'jane@example.com',
-      linkTitle: 'Portfolio',
-      clicks: 90,
-      status: 'Blocked',
-    },
-    {
-      name: 'Mark Taylor',
-      username: 'marktaylor',
-      email: 'mark@example.com',
-      linkTitle: 'Music Page',
-      clicks: 45,
-      status: 'Active',
-    },
-  ];
+  constructor(
+    private adminUsersService: AdminUsersService,
+    private cd: ChangeDetectorRef,
+  ) {}
 
-  get filteredUsers() {
+  ngOnInit(): void {
+    this.loadUsers();
+  }
+
+  loadUsers(): void {
+    this.loading = true;
+    this.error = null;
+    this.adminUsersService.getUsers().subscribe({
+      next: (res) => {
+        this.users = res.data ?? [];
+        this.loading = false;
+        this.cd.detectChanges();
+      },
+      error: () => {
+        this.error = 'Failed to load users';
+        this.loading = false;
+      },
+    });
+  }
+
+  get filteredUsers(): AdminUsersResponse[] {
     if (this.filter === 'all') return this.users;
-    if (this.filter === 'active') return this.users.filter((u) => u.status === 'Active');
-    if (this.filter === 'blocked') return this.users.filter((u) => u.status === 'Blocked');
+    if (this.filter === 'active') return this.users.filter((u) => !u.isBlocked);
+    if (this.filter === 'blocked') return this.users.filter((u) => u.isBlocked);
     return this.users;
   }
 
-  blockUnblockUser(user: any) {
-    user.status = user.status === 'Active' ? 'Blocked' : 'Active';
+  blockUnblockUser(user: AdminUsersResponse): void {
+    const status = user.isBlocked ? 'unblock' : 'block';
+    this.togglingId = user.id;
+    this.adminUsersService.toggleUserStatus(user.id, status).subscribe({
+      next: () => {
+        this.loadUsers();
+        this.togglingId = null;
+        this.cd.detectChanges();
+      },
+      error: () => {
+        this.error = 'Failed to update user status';
+        this.togglingId = null;
+        this.cd.detectChanges();
+      },
+    });
   }
 }

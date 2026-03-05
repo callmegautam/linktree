@@ -2,18 +2,7 @@ import { ClickCounts } from "@/models/clicks";
 import { Links, type PlatformType } from "@/models/links";
 import { User, UserDocument } from "@/models/users";
 import { fail, ok, Result } from "@/utils";
-
-export type AdminLinksResponse = {
-  id: string;
-  title: string;
-  link: string;
-  owner: string;
-  clicks: number;
-  isBlocked: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-};
-export type LinkStatus = "block" | "unblock";
+import { AdminLinksResponse, LinkStatus } from "@linktree/validation";
 
 export const getAdminLinksService = async (): Promise<
   Result<AdminLinksResponse[]>

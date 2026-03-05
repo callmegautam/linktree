@@ -5,8 +5,8 @@ import {
   getAdminLinksService,
   toggleLinkStatusService,
   deleteLinkService,
-  LinkStatus,
 } from "../services";
+import { LinkStatus } from "@linktree/validation";
 
 export const getAdminLinks = async (req: Request, res: Response) => {
   const result = await getAdminLinksService();

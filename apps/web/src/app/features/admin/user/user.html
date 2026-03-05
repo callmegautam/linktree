@@ -1,4 +1,8 @@
 <div class="flex flex-col p-6 overflow-y-auto">
+  @if (error) {
+    <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">{{ error }}</div>
+  }
+
   <!-- Filter Tabs -->
   <div class="flex items-center gap-4 mb-6">
     <button
@@ -35,38 +39,49 @@
 
   <!-- Users Table -->
   <div class="bg-white rounded-2xl shadow p-4 overflow-x-auto">
-    <table class="w-full text-center min-w-225">
-      <thead>
-        <tr class="border-b border-gray-200">
-          <th class="py-2 px-2 text-center">Name</th>
-          <th class="py-2 px-2 text-center">Username</th>
-          <th class="py-2 px-2 text-center">Email</th>
-          <th class="py-2 px-2 text-center">Link Title</th>
-          <th class="py-2 px-2 text-center">Clicks</th>
-          <th class="py-2 px-2 text-center">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of filteredUsers" class="border-b border-gray-100 hover:bg-gray-50">
-          <td class="py-2 px-2 text-center">{{ user.name }}</td>
-          <td class="py-2 px-2 text-center">{{ user.username }}</td>
-          <td class="py-2 px-2 text-center">{{ user.email }}</td>
-          <td class="py-2 px-2 text-center">{{ user.linkTitle }}</td>
-          <td class="py-2 px-2 text-center">{{ user.clicks }}</td>
-          <td class="py-2 px-2 text-center">
-            <button
-              (click)="blockUnblockUser(user)"
-              [ngClass]="{
-                'bg-red-500  hover:bg-red-600': user.status === 'Active',
-                'bg-green-500  hover:bg-green-600': user.status === 'Blocked',
-              }"
-              class="px-3 py-1 text-white rounded-lg transition"
-            >
-              {{ user.status === 'Active' ? 'Block' : 'Unblock' }}
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    @if (loading) {
+      <div class="py-8 text-center text-gray-500">Loading users...</div>
+    } @else {
+      <table class="w-full text-center min-w-225">
+        <thead>
+          <tr class="border-b border-gray-200">
+            <th class="py-2 px-2 text-center">Name</th>
+            <th class="py-2 px-2 text-center">Username</th>
+            <th class="py-2 px-2 text-center">Email</th>
+            <th class="py-2 px-2 text-center">Clicks</th>
+            <th class="py-2 px-2 text-center">Status</th>
+            <th class="py-2 px-2 text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of filteredUsers; track user.id) {
+            <tr class="border-b border-gray-100 hover:bg-gray-50">
+              <td class="py-2 px-2 text-center">{{ user.name }}</td>
+              <td class="py-2 px-2 text-center">{{ user.username }}</td>
+              <td class="py-2 px-2 text-center">{{ user.email }}</td>
+              <td class="py-2 px-2 text-center">{{ user.clicks }}</td>
+              <td class="py-2 px-2 text-center">
+                <span [ngClass]="user.isBlocked ? 'text-red-600' : 'text-green-600'">
+                  {{ user.isBlocked ? 'Blocked' : 'Active' }}
+                </span>
+              </td>
+              <td class="py-2 px-2 text-center">
+                <button
+                  (click)="blockUnblockUser(user)"
+                  [disabled]="togglingId === user.id"
+                  [ngClass]="{
+                    'bg-red-500 hover:bg-red-600': !user.isBlocked,
+                    'bg-green-500 hover:bg-green-600': user.isBlocked,
+                  }"
+                  class="px-3 py-1 text-white rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {{ togglingId === user.id ? '...' : (user.isBlocked ? 'Unblock' : 'Block') }}
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
   </div>
 </div>

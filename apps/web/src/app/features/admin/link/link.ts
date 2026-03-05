@@ -1,5 +1,7 @@
+import { AdminLinksService } from '@/app/core/services/admin/links-service';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { AdminLinksResponse } from '@linktree/validation';
 
 @Component({
   selector: 'app-link',
@@ -8,62 +10,83 @@ import { Component } from '@angular/core';
 })
 export class LinkComponent {
   filter: 'all' | 'active' | 'blocked' = 'all';
+  links: AdminLinksResponse[] = [];
+  loading = true;
+  error: string | null = null;
+  togglingId: string | null = null;
+  deletingId: string | null = null;
 
-  links = [
-    {
-      title: 'Personal Blog',
-      url: 'https://blog.com',
-      owner: 'johndoe',
-      clicks: 120,
-      status: 'Active',
-      showMenu: false,
-    },
-    {
-      title: 'Portfolio',
-      url: 'https://portfolio.com',
-      owner: 'janesmith',
-      clicks: 90,
-      status: 'Blocked',
-      showMenu: false,
-    },
-    {
-      title: 'Music Page',
-      url: 'https://music.com',
-      owner: 'marktaylor',
-      clicks: 45,
-      status: 'Active',
-      showMenu: false,
-    },
-  ];
+  constructor(
+    private adminLinksService: AdminLinksService,
+    private cd: ChangeDetectorRef,
+  ) {}
 
-  get filteredLinks() {
+  ngOnInit(): void {
+    this.loadLinks();
+  }
+
+  loadLinks(): void {
+    this.loading = true;
+    this.error = null;
+    this.adminLinksService.getLinks().subscribe({
+      next: (res) => {
+        this.links = res.data ?? [];
+        this.loading = false;
+        this.cd.detectChanges();
+      },
+      error: () => {
+        this.error = 'Failed to load links';
+        this.loading = false;
+        this.cd.detectChanges();
+      },
+    });
+  }
+
+  get filteredLinks(): AdminLinksResponse[] {
     if (this.filter === 'all') return this.links;
-    if (this.filter === 'active') return this.links.filter((l) => l.status === 'Active');
-    if (this.filter === 'blocked') return this.links.filter((l) => l.status === 'Blocked');
+    if (this.filter === 'active') return this.links.filter((l) => !l.isBlocked);
+    if (this.filter === 'blocked') return this.links.filter((l) => l.isBlocked);
     return this.links;
   }
 
-  get totalClicks() {
+  get totalClicks(): number {
     return this.links.reduce((sum, link) => sum + link.clicks, 0);
   }
 
-  get activeLinks() {
-    return this.links.filter((l) => l.status === 'Active').length;
+  get activeLinksCount(): number {
+    return this.links.filter((l) => !l.isBlocked).length;
   }
 
-  toggleMenu(link: any) {
-    this.links.forEach((l) => {
-      if (l !== link) l.showMenu = false;
+  blockUnblockLink(link: AdminLinksResponse): void {
+    const status = link.isBlocked ? 'unblock' : 'block';
+    this.togglingId = link.id;
+    this.adminLinksService.toggleLinkStatus(link.id, status).subscribe({
+      next: () => {
+        this.loadLinks();
+        this.togglingId = null;
+        this.cd.detectChanges();
+      },
+      error: () => {
+        this.error = 'Failed to update link status';
+        this.togglingId = null;
+        this.cd.detectChanges();
+      },
     });
-    link.showMenu = !link.showMenu;
   }
 
-  blockUnblockLink(link: any) {
-    link.status = link.status === 'Active' ? 'Blocked' : 'Active';
-    link.showMenu = false;
-  }
-
-  deleteLink(link: any) {
-    this.links = this.links.filter((l) => l !== link);
+  deleteLink(link: AdminLinksResponse): void {
+    this.deletingId = link.id;
+    this.adminLinksService.deleteLink(link.id).subscribe({
+      next: () => {
+        this.loadLinks();
+        this.deletingId = null;
+        this.cd.detectChanges();
+      },
+      error: () => {
+        this.error = 'Failed to delete link';
+        this.deletingId = null;
+        this.cd.detectChanges();
+      },
+    });
   }
 }

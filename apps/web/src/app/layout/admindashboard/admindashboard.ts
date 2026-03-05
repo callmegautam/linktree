@@ -1,3 +1,4 @@
+import { AdminAuthService } from '@/app/core/services/admin-auth.service';
 import { Component } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { Navigation } from 'lucide-angular';
@@ -13,6 +14,7 @@ export class admindashboardLayout {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private adminAuthService: AdminAuthService,
   ) {
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       let currentRoute = this.route;
@@ -23,5 +25,10 @@ export class admindashboardLayout {
 
       this.adminpage = currentRoute.snapshot.data?.['name'] || '';
     });
+  }
+
+  logout() {
+    this.adminAuthService.logout();
+    this.router.navigate(['/admin/login']);
   }
 }

@@ -2,19 +2,7 @@ import { PlatformType } from "@/models/links";
 import { Profile } from "@/models/profile";
 import { User } from "@/models/users";
 import { fail, Result, ok } from "@/utils";
-
-export type AdminUsersResponse = {
-  id: string;
-  name: string;
-  email: string;
-  username: string;
-  clicks: number;
-  isActive: boolean;
-  isDeleted: boolean;
-  isBlocked: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-};
+import { AdminUsersResponse } from "@linktree/validation";
 
 export type UserStatus = "block" | "unblock";
 

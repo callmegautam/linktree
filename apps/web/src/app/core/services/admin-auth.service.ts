@@ -1,11 +1,7 @@
 import { environment } from '@/environment/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  AdminLogin as AdminLoginBody,
-  AdminResponse,
-  CreateAdminBody,
-} from '@linktree/validation';
+import { AdminLogin as AdminLoginBody, AdminResponse, CreateAdminBody } from '@linktree/validation';
 import { ApiResponse } from '@linktree/shared-types';
 import { Observable, tap } from 'rxjs';
 import { AdminAuthStore } from '@/app/store/admin-auth';

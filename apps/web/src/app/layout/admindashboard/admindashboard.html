@@ -22,19 +22,19 @@
       <!-- Menu Buttons -->
       <div class="flex flex-col p-2 text-sm space-y-2">
         <div
-          [routerLink]="['/admindashboard/dashboard']"
+          [routerLink]="['/admin/dashboard']"
           class="px-4 py-2 rounded-2xl hover:bg-gray-300 cursor-pointer text-gray-700 font-medium"
         >
           Dashboard
         </div>
         <div
-          [routerLink]="['/admindashboard/user']"
+          [routerLink]="['/admin/user']"
           class="px-4 py-2 rounded-2xl hover:bg-gray-300 cursor-pointer text-gray-700 font-medium"
         >
           Users
         </div>
         <div
-          [routerLink]="['/admindashboard/link']"
+          [routerLink]="['/admin/link']"
           class="px-4 py-2 rounded-2xl hover:bg-gray-300 cursor-pointer text-gray-700 font-medium"
         >
           Links
@@ -52,6 +52,7 @@
     <div class="flex border-t pl-2 border-gray-300">
       <button
         class="flex items-center gap-2 w-full px-4 py-3 text-red-500 text-lg hover:bg-gray-100 transition"
+        (click)="logout()"
       >
         Logout
       </button>
