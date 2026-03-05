@@ -90,7 +90,7 @@ export const createProfileService = async (
       },
 
       text: {
-        font: "Inter",
+        font: "font-sans",
         pageColor: "#e2e8f0", // Soft slate-200
         titleColor: "#ffffff",
       },

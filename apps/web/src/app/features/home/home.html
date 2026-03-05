@@ -2,6 +2,7 @@
   <!-- CENTER CARD -->
   <div
     class="w-105 h-170 rounded-3xl shadow-xl flex flex-col p-6"
+    [ngClass]="selectedFont"
     [ngStyle]="{
       background: theme?.background?.value || '#000000',
       'background-color': theme?.text?.pageColor || '#EFF1F3',

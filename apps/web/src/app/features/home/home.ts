@@ -17,6 +17,7 @@ export class Home {
   name: string = '';
   username: string = '';
   avatarUrl: string = '';
+  selectedFont: string = 'font-sans';
 
   links: any[] = [];
 
@@ -95,6 +96,8 @@ export class Home {
         //   links: this.links,
         //   theme: this.theme,
         // });
+
+        this.selectedFont = res.data?.theme?.text?.font ?? 'font-sans';
 
         this.cd.detectChanges();
       }

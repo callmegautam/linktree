@@ -84,10 +84,10 @@ export class Design {
 
   selectedFont: string = 'font-sans';
 
-  fontMap: Record<string, string> = this.fonts.reduce(
-    (acc, f) => ({ ...acc, [f.name]: f.value }),
-    {},
-  );
+  // fontMap: Record<string, string> = this.fonts.reduce(
+  //   (acc, f) => ({ ...acc, [f.name]: f.value }),
+  //   {},
+  // );
 
   ngOnInit(): void {
     forkJoin({
@@ -145,8 +145,8 @@ export class Design {
           if (text) {
             this.pageTextColor = text.pageColor ?? this.pageTextColor;
             this.titleColor = text.titleColor ?? this.titleColor;
-            this.selectedFont =
-              text?.font && this.fontMap[text.font] ? this.fontMap[text.font] : 'font-sans';
+            // this.selectedFont = text?.font ?? 'font-sans';
+            this.selectedFont = text?.font ?? 'font-sans';
           }
         }
         this.refreshService.triggerRefresh();
@@ -247,7 +247,8 @@ export class Design {
       },
 
       text: {
-        font: this.fonts.find((f) => f.value === this.selectedFont)?.name ?? 'Sans',
+        // font: this.fonts.find((f) => f.value === this.selectedFont)?.name ?? 'Sans',
+        font: this.selectedFont,
         pageColor: this.pageTextColor,
         titleColor: this.titleColor,
       },

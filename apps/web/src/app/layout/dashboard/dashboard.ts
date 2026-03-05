@@ -32,6 +32,25 @@ export class dashboardLayout {
   links: any[] = [];
   theme: any;
 
+  fonts = [
+    { name: 'Inter', value: 'font-inter' },
+    { name: 'Sans', value: 'font-sans' },
+    { name: 'Poppins', value: 'font-poppins' },
+    { name: 'Roboto', value: 'font-roboto' },
+    { name: 'Montserrat', value: 'font-montserrat' },
+    { name: 'Lato', value: 'font-lato' },
+    { name: 'Link Sans', value: 'font-link-sans' },
+    { name: 'Serif', value: 'font-serif' },
+    { name: 'Mono', value: 'font-mono' },
+  ];
+
+  selectedFont: string = 'font-sans';
+
+  // fontMap: Record<string, string> = this.fonts.reduce(
+  //   (acc, f) => ({ ...acc, [f.name]: f.value }),
+  //   {},
+  // );
+
   socialItems = [
     { platform: 'instagram', icon: 'images/instagram.png' },
     { platform: 'facebook', icon: 'images/facebook.png' },
@@ -109,6 +128,9 @@ export class dashboardLayout {
             });
 
             this.theme = homeRes.data.theme;
+            this.selectedFont = homeRes.data?.theme?.text?.font ?? 'font-sans';
+
+            console.log('SELECTED FONT: ', this.selectedFont);
           }
           console.log('THEME: ', this.theme);
           this.cd.detectChanges();
