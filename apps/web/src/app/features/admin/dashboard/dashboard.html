@@ -21,19 +21,82 @@
 
   <!-- Analytics Section -->
   <div class="grid grid-cols-3 gap-6 mb-6">
-    <!-- Clicks Chart -->
-    <div class="col-span-2 bg-white rounded-2xl shadow p-4">
-      <div class="text-gray-700 font-semibold mb-2">Clicks Overview</div>
-      <div class="h-48 bg-gray-100 rounded-lg"></div>
+    <!-- Clicks Overview -->
+    <div class="col-span-2 bg-white rounded-2xl shadow p-4 flex flex-col min-w-0">
+      <div class="flex justify-between items-center mb-2">
+        <div class="text-gray-700 font-semibold">Clicks Overview</div>
+        <div class="flex gap-1 text-sm">
+          @for (r of chartRanges; track r.value) {
+            <button
+              type="button"
+              (click)="setRange(r.value)"
+              class="px-2.5 py-1 rounded-lg transition font-medium"
+              [class.bg-amber-100]="selectedRange === r.value"
+              [class.text-amber-800]="selectedRange === r.value"
+              [class.text-gray-500]="selectedRange !== r.value"
+              [class.hover:bg-gray-100]="selectedRange !== r.value"
+            >
+              {{ r.label }}
+            </button>
+          }
+        </div>
+      </div>
+      <div class="rounded-lg border border-gray-100 bg-gray-50/50 h-48 overflow-hidden">
+        @if (chartData.length) {
+          <svg [attr.viewBox]="'0 0 ' + chartWidth + ' ' + chartHeight" class="w-full h-full block" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <linearGradient id="dashboardClicksGradient" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.4" />
+                <stop offset="100%" stop-color="#f59e0b" stop-opacity="0.08" />
+              </linearGradient>
+            </defs>
+            <line [attr.x1]="padding.left" [attr.y1]="padding.top" [attr.x2]="padding.left" [attr.y2]="chartHeight - padding.bottom" stroke="#9ca3af" stroke-width="1" />
+            <line [attr.x1]="padding.left" [attr.y1]="chartHeight - padding.bottom" [attr.x2]="chartWidth - padding.right" [attr.y2]="chartHeight - padding.bottom" stroke="#9ca3af" stroke-width="1" />
+            @for (tick of yTicks; track tick.y + tick.value) {
+              <line [attr.x1]="padding.left" [attr.y1]="tick.y" [attr.x2]="chartWidth - padding.right" [attr.y2]="tick.y" stroke="#e5e7eb" stroke-width="1" />
+            }
+            <path [attr.d]="areaPath" fill="url(#dashboardClicksGradient)" />
+            <path [attr.d]="linePath" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            @for (tick of yTicks; track tick.y + tick.value) {
+              <text [attr.x]="padding.left - 5" [attr.y]="tick.y + 3" text-anchor="end" font-size="10" fill="#6b7280" font-family="system-ui,sans-serif">{{ tick.value >= 1000 ? (tick.value/1000) + 'k' : tick.value }}</text>
+            }
+            @for (xl of xLabels; track xl.label + xl.x) {
+              <text [attr.x]="xl.x" [attr.y]="chartHeight - 6" text-anchor="middle" font-size="10" fill="#6b7280" font-family="system-ui,sans-serif">{{ xl.label }}</text>
+            }
+          </svg>
+        } @else {
+          <div class="w-full h-full flex items-center justify-center text-gray-400 text-xs">No click data for this period</div>
+        }
+      </div>
     </div>
 
     <!-- User Stats -->
     <div class="bg-white rounded-2xl shadow p-4 flex flex-col items-center justify-center">
       <div class="text-gray-700 font-semibold mb-2">User Stats</div>
-      <div class="w-32 h-32 bg-gray-100 rounded-full">
-        <!-- Placeholder for Donut Chart -->
-      </div>
-      <div class="mt-4 text-gray-500">Active Users: {{ analytics?.analytics?.activeUsers ?? 0 }}</div>
+      @if (analyticsLoading) {
+        <div class="w-32 h-32 flex items-center justify-center text-gray-400 text-sm">Loading...</div>
+        <div class="mt-2 text-gray-400 text-sm">—</div>
+      } @else {
+        <div class="relative w-32 h-32 shrink-0">
+          <svg viewBox="0 0 128 128" class="w-full h-full block">
+            @for (seg of userStatsSegments; track seg.label) {
+              <path [attr.d]="seg.pathD" [attr.fill]="seg.color" stroke="white" stroke-width="2" />
+            }
+            <text x="64" y="58" text-anchor="middle" font-size="14" font-weight="600" fill="#374151">{{ userStatsTotal }}</text>
+            <text x="64" y="76" text-anchor="middle" font-size="10" fill="#6b7280">total</text>
+          </svg>
+        </div>
+        <div class="mt-2 flex flex-col items-center gap-0.5 text-sm">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span class="text-gray-600">Active: {{ userStatsActive }}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-gray-200"></span>
+            <span class="text-gray-600">Inactive: {{ userStatsTotal - userStatsActive }}</span>
+          </div>
+        </div>
+      }
     </div>
   </div>
 
@@ -42,26 +105,30 @@
     <!-- Recent Activity -->
     <div class="bg-white rounded-2xl shadow p-4">
       <div class="text-gray-700 font-semibold mb-4">Recent Activity</div>
-      <table class="min-w-full text-left border-collapse">
-        <thead>
-          <tr class="bg-gray-50 border-b border-gray-200 text-gray-500 text-sm uppercase">
-            <th class="py-3 px-4">User</th>
-            <th class="py-3 px-4">Link</th>
-            <th class="py-3 px-4">Clicks</th>
-            <th class="py-3 px-4">Date</th>
-          </tr>
-        </thead>
-        <tbody class="text-gray-700">
-          @for (activity of analytics?.recentActivity ?? []; track activity.user + activity.link.title + activity.date) {
-            <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
-              <td class="py-2 px-4 font-medium">{{ activity.user }}</td>
-              <td class="py-2 px-4">{{ activity.link.title }}</td>
-              <td class="py-2 px-4">{{ activity.clicks }}</td>
-              <td class="py-2 px-4">{{ activity.date | date:'short' }}</td>
+      @if (analyticsLoading) {
+        <div class="py-8 text-center text-gray-400 text-sm">Loading...</div>
+      } @else {
+        <table class="min-w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-gray-50 border-b border-gray-200 text-gray-500 text-sm uppercase">
+              <th class="py-3 px-4">User</th>
+              <th class="py-3 px-4">Link</th>
+              <th class="py-3 px-4">Clicks</th>
+              <th class="py-3 px-4">Date</th>
             </tr>
-          }
-        </tbody>
-      </table>
+          </thead>
+          <tbody class="text-gray-700">
+            @for (activity of (analytics?.recentActivity ?? []); track activity.user + activity.link.title + activity.date) {
+              <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
+                <td class="py-2 px-4 font-medium">{{ activity.user }}</td>
+                <td class="py-2 px-4">{{ activity.link.title }}</td>
+                <td class="py-2 px-4">{{ activity.clicks }}</td>
+                <td class="py-2 px-4">{{ activity.date | date:'short' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
     </div>
 
     <!-- Top Performing Links -->
@@ -69,19 +136,22 @@
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-gray-800 font-semibold text-lg">Top Performing Links</h2>
       </div>
-
-      <ul class="space-y-3">
-        @for (item of analytics?.topPerformingLinks ?? []; track item.link.title + item.clicks) {
-          <li
-            class="flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
-          >
-            <div class="flex items-center gap-3">
-              <span class="font-medium text-gray-700">{{ item.link.title }}</span>
-            </div>
-            <span class="text-gray-500 font-semibold">{{ item.clicks | number }} Clicks</span>
-          </li>
-        }
-      </ul>
+      @if (analyticsLoading) {
+        <div class="py-8 text-center text-gray-400 text-sm">Loading...</div>
+      } @else if (analytics?.topPerformingLinks?.length) {
+        <ul class="space-y-3">
+          @for (item of (analytics?.topPerformingLinks ?? []); track item.link.title + item.clicks) {
+            <li
+              class="flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
+            >
+              <div class="flex items-center gap-3">
+                <span class="font-medium text-gray-700">{{ item.link.title }}</span>
+              </div>
+              <span class="text-gray-500 font-semibold">{{ item.clicks | number }} Clicks</span>
+            </li>
+          }
+        </ul>
+      }
     </div>
   </div>
 </div>
