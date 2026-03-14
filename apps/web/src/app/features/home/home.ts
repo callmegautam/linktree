@@ -5,12 +5,12 @@ import { AuthStore } from '@/app/store/auth';
 import { environment } from '@/environment/environment';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { filter, map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, IconsModule],
+  imports: [CommonModule, IconsModule, RouterLink],
   templateUrl: './home.html',
 })
 export class Home {

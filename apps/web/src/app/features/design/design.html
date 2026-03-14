@@ -193,7 +193,7 @@
         </div>
 
         <!-- Image -->
-        <div class="flex flex-col items-center cursor-pointer" (click)="selectStyle('image')">
+        <!-- <div class="flex flex-col items-center cursor-pointer" (click)="selectStyle('image')">
           <div
             class="w-20 h-20 bg-gray-200 rounded-2xl flex items-center justify-center transition-all duration-200"
             [class.border-2]="selectedStyle === 'image'"
@@ -211,7 +211,7 @@
           >
             Image
           </p>
-        </div>
+        </div> -->
       </div>
 
       <!-- ================= FILL SECTION ================= -->
@@ -259,7 +259,7 @@
       </div>
 
       <!-- ================= IMAGE SECTION ================= -->
-      <div *ngIf="selectedStyle === 'image'">
+      <!-- <div *ngIf="selectedStyle === 'image'">
         <p class="text-sm mb-2">Image URL</p>
 
         <input
@@ -274,7 +274,7 @@
           class="mt-4 w-full h-40 rounded-2xl bg-cover bg-center"
           [ngStyle]="{ 'background-image': 'url(' + imagePreview + ')' }"
         ></div>
-      </div>
+      </div> -->
 
       <!-- button -->
       <button

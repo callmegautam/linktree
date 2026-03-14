@@ -39,7 +39,7 @@ export class Account implements OnInit {
       if (res && res.data) {
         this.name = res.data.display_name ?? 'checkin';
         this.username = res.data.username ?? '';
-        this.bio = res.data.bio ?? 'This is your default bio';
+        this.bio = res.data.bio ?? '';
         if (res.data.avatar_url) {
           this.avatarUrl = `${environment.backend}${res?.data?.avatar_url}`;
         } else {

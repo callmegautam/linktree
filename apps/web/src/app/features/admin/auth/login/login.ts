@@ -44,7 +44,6 @@ export class AdminLogin {
       },
       error: (err) => {
         const errorMessage = this.errorHandleService.handleStatus(err.status);
-        this.toastr.error(errorMessage);
       },
     });
   }

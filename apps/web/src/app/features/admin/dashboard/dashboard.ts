@@ -61,9 +61,7 @@ export class Dashboard implements OnDestroy {
     let series = result.map((r) => ({ ...r, clicks: byDay.get(r.date) ?? r.clicks }));
     const sum = series.reduce((s, d) => s + d.clicks, 0);
     if (totalClicks > 0 && sum === 0 && series.length) {
-      series = series.map((r, i) =>
-        i === series.length - 1 ? { ...r, clicks: totalClicks } : r,
-      );
+      series = series.map((r, i) => (i === series.length - 1 ? { ...r, clicks: totalClicks } : r));
     }
     return series;
   }
@@ -124,7 +122,8 @@ export class Dashboard implements OnDestroy {
     const top = this.padding.top;
     const result: { value: number; y: number }[] = [];
     const step = scaleMax <= 5 ? 1 : scaleMax <= 20 ? 5 : Math.ceil(scaleMax / 5);
-    for (let v = 0; v <= scaleMax; v += step) result.push({ value: v, y: top + this.innerHeight - (v / scaleMax) * this.innerHeight });
+    for (let v = 0; v <= scaleMax; v += step)
+      result.push({ value: v, y: top + this.innerHeight - (v / scaleMax) * this.innerHeight });
     if (result[result.length - 1]?.value !== scaleMax) result.push({ value: scaleMax, y: top });
     return [...new Map(result.map((t) => [t.value, t])).values()].sort((a, b) => a.y - b.y);
   }
@@ -160,7 +159,14 @@ export class Dashboard implements OnDestroy {
     this.cd.detectChanges();
   }
 
-  private donutSegment(cx: number, cy: number, innerR: number, outerR: number, startDeg: number, endDeg: number): string {
+  private donutSegment(
+    cx: number,
+    cy: number,
+    innerR: number,
+    outerR: number,
+    startDeg: number,
+    endDeg: number,
+  ): string {
     const rad = (d: number) => (d * Math.PI) / 180;
     const x = (r: number, deg: number) => cx + r * Math.cos(rad(deg - 90));
     const y = (r: number, deg: number) => cy + r * Math.sin(rad(deg - 90));
@@ -178,13 +184,28 @@ export class Dashboard implements OnDestroy {
     const innerR = 28;
     const segments: { label: string; value: number; color: string; pathD: string }[] = [];
     if (total <= 0) {
-      segments.push({ label: 'No users', value: 0, color: '#e5e7eb', pathD: this.donutSegment(cx, cy, innerR, outerR, 0, 360) });
+      segments.push({
+        label: 'No users',
+        value: 0,
+        color: '#e5e7eb',
+        pathD: this.donutSegment(cx, cy, innerR, outerR, 0, 360),
+      });
       return segments;
     }
     const activeDeg = (active / total) * 360;
-    segments.push({ label: 'Active', value: active, color: '#10b981', pathD: this.donutSegment(cx, cy, innerR, outerR, 0, activeDeg) });
+    segments.push({
+      label: 'Active',
+      value: active,
+      color: '#10b981',
+      pathD: this.donutSegment(cx, cy, innerR, outerR, 0, activeDeg),
+    });
     if (inactive > 0) {
-      segments.push({ label: 'Inactive', value: inactive, color: '#e5e7eb', pathD: this.donutSegment(cx, cy, innerR, outerR, activeDeg, 360) });
+      segments.push({
+        label: 'Inactive',
+        value: inactive,
+        color: '#e5e7eb',
+        pathD: this.donutSegment(cx, cy, innerR, outerR, activeDeg, 360),
+      });
     }
     return segments;
   }
@@ -201,6 +222,7 @@ export class Dashboard implements OnDestroy {
   loadAnalytics(): void {
     this.analyticsService.getAnalytics().subscribe({
       next: (res) => {
+        console.log(res);
         if (res?.data) {
           this.analytics = res.data;
           this.analyticsLoading = false;

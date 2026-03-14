@@ -66,7 +66,7 @@ export class Link implements OnInit {
       if (res && res.data) {
         this.name = res.data.display_name ?? 'checkin';
         this.username = res.data.username ?? 'checkin';
-        this.bio = res.data.bio ?? 'Enter bio';
+        this.bio = res.data.bio ?? 'write soming about your self....';
         if (res.data.avatar_url) {
           this.avatarUrl = `${environment.backend}${res?.data?.avatar_url}`;
         } else {

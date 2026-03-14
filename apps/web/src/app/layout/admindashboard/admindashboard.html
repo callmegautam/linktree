@@ -1,6 +1,6 @@
 <div class="flex h-screen w-screen overflow-hidden bg-[#FBFAF9]">
   <!-- Sidebar -->
-  <div class="h-full bg-[#F1F0EE] w-[13%] flex flex-col">
+  <div class="h-full bg-[#F1F0EE] w-64 flex flex-col">
     <div class="flex-1">
       <!-- Admin Profile -->
       <div class="flex items-center gap-2 px-3 py-3">
@@ -63,11 +63,14 @@
   <div class="flex-1 h-full flex flex-col">
     <!-- Top Navbar -->
     <div
-      class="h-[7%] w-full border-b border-gray-200 flex items-center justify-between px-6 bg-white"
+      class="h-14 w-full border-b border-gray-200 flex items-center justify-between px-6 bg-white"
     >
       <h1 class="text-xl font-semibold text-gray-800">{{ adminpage }}</h1>
     </div>
     <!-- pages -->
-    <router-outlet></router-outlet>
+
+    <div class="flex-1 overflow-auto">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>
