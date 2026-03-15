@@ -5,10 +5,15 @@ import { ThemeModel } from '@/models/theme';
 import { Links } from '@/models/links';
 import { generateToken, hashPassword, verifyPassword } from '@/utils';
 import { fail, ok, Result } from '@/utils/result';
-import { RegisterBody, LoginBody, UserResponse, ChangePasswordBody } from '@linktree/validation';
+import {
+  RegisterBody,
+  LoginBody,
+  UserResponse,
+  ChangePasswordBody,
+} from '@linktree/validation';
 
 export const registerService = async (
-  data: RegisterBody,
+  data: RegisterBody
 ): Promise<Result<UserResponse>> => {
   try {
     const { name, username, email, password } = data;
@@ -67,7 +72,7 @@ export const registerService = async (
 };
 
 export const loginService = async (
-  data: LoginBody,
+  data: LoginBody
 ): Promise<Result<UserResponse>> => {
   try {
     const { email, password } = data;
@@ -76,6 +81,14 @@ export const loginService = async (
 
     if (!user) {
       return fail('UNAUTHORIZED', 'Invalid email or password');
+    }
+
+    if (user.isBlocked) {
+      return fail('FORBIDDEN', 'Your account has been blocked by admin');
+    }
+
+    if (!user.isActive) {
+      return fail('FORBIDDEN', 'Your account is inactive');
     }
 
     const isPasswordCorrect = await verifyPassword(password, user.passwordHash);
@@ -107,7 +120,6 @@ export const loginService = async (
   }
 };
 
-
 export const deleteUserService = async (userId: string): Promise<Result<string>> => {
   try {
     const user = await User.findOneAndDelete({ _id: userId });
@@ -117,10 +129,10 @@ export const deleteUserService = async (userId: string): Promise<Result<string>>
     await Profile.findOneAndDelete({ user_id: userId });
     await ThemeModel.findOneAndDelete({ user_id: userId });
     await Links.deleteMany({ user_id: userId });
-    
+
     return ok('User deleted successfully' as const);
   } catch (error) {
     console.log(error);
     return fail('DB_ERROR', 'Failed to delete user');
   }
-}
+};

@@ -1,10 +1,10 @@
-import { PlatformType } from "@/models/links";
-import { Profile } from "@/models/profile";
-import { User } from "@/models/users";
-import { fail, Result, ok } from "@/utils";
-import { AdminUsersResponse } from "@linktree/validation";
+import { PlatformType } from '@/models/links';
+import { Profile } from '@/models/profile';
+import { User } from '@/models/users';
+import { fail, Result, ok } from '@/utils';
+import { AdminUsersResponse } from '@linktree/validation';
 
-export type UserStatus = "block" | "unblock";
+export type UserStatus = 'block' | 'unblock';
 
 export const getAdminUsersService = async (): Promise<
   Result<AdminUsersResponse[]>
@@ -13,28 +13,28 @@ export const getAdminUsersService = async (): Promise<
     const adminUsers: AdminUsersResponse[] = await User.aggregate([
       {
         $lookup: {
-          from: "profiles",
-          localField: "_id",
-          foreignField: "user_id",
-          as: "profile",
+          from: 'profiles',
+          localField: '_id',
+          foreignField: 'user_id',
+          as: 'profile',
         },
       },
 
       {
         $unwind: {
-          path: "$profile",
+          path: '$profile',
           preserveNullAndEmptyArrays: true,
         },
       },
 
       {
         $project: {
-          id: { $toString: "$_id" },
-          name: "$name",
-          email: "$email",
-          username: "$username",
+          id: { $toString: '$_id' },
+          name: '$name',
+          email: '$email',
+          username: '$username',
 
-          clicks: { $ifNull: ["$profile.clicks", 0] },
+          clicks: { $ifNull: ['$profile.clicks', 0] },
 
           isActive: 1,
           isDeleted: 1,
@@ -52,44 +52,44 @@ export const getAdminUsersService = async (): Promise<
     return ok(adminUsers);
   } catch (error) {
     console.log(error);
-    return fail("DB_ERROR", "Failed to get admin users");
+    return fail('DB_ERROR', 'Failed to get admin users');
   }
 };
 
 export const toggleUserStatusService = async (
   userId: string,
-  status: UserStatus,
+  status: UserStatus
 ): Promise<Result<string>> => {
   try {
     const user = await User.findOneAndUpdate(
       { _id: userId },
       {
-        isActive: status === "block" ? false : true,
-        isBlocked: status === "block" ? true : false,
-      },
+        isActive: status === 'block' ? false : true,
+        isBlocked: status === 'block' ? true : false,
+      }
     );
 
     if (!user) {
-      return fail("NOT_FOUND", "User not found");
+      return fail('NOT_FOUND', 'User not found');
     }
 
     const profile = await Profile.findOneAndUpdate(
       { user_id: userId },
       {
-        isActive: status === "block" ? false : true,
-        isBlocked: status === "block" ? true : false,
-      },
+        isActive: status === 'block' ? false : true,
+        isBlocked: status === 'block' ? true : false,
+      }
     );
 
     if (!profile) {
-      return fail("NOT_FOUND", "Profile not found");
+      return fail('NOT_FOUND', 'Profile not found');
     }
 
     return ok(
-      `User ${user.name} is ${status === "block" ? "blocked" : "unblocked"}`,
+      `User ${user.name} is ${status === 'block' ? 'blocked' : 'unblocked'}`
     );
   } catch (error) {
     console.log(error);
-    return fail("DB_ERROR", "Failed to toggle user status");
+    return fail('DB_ERROR', 'Failed to toggle user status');
   }
 };

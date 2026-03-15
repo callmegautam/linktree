@@ -1,29 +1,26 @@
-import { NextFunction, Request, RequestHandler, Response } from "express";
-import { HttpStatus } from "../types";
-import { sendError, verifyToken } from "../utils";
+import { NextFunction, Request, RequestHandler, Response } from 'express';
+import { HttpStatus } from '../types';
+import { sendError, verifyToken } from '../utils';
+import { User } from '@/models/users';
 
-export const authMiddleware: RequestHandler = (
+export const authMiddleware: RequestHandler = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
-    return sendError(
-      res,
-      "Authorization header missing",
-      HttpStatus.UNAUTHORIZED,
-    );
+    return sendError(res, 'Authorization header missing', HttpStatus.UNAUTHORIZED);
   }
 
-  const [scheme, token] = authHeader.split(" ");
+  const [scheme, token] = authHeader.split(' ');
 
-  if (scheme !== "Bearer" || !token) {
+  if (scheme !== 'Bearer' || !token) {
     return sendError(
       res,
-      "Invalid authorization format. Expected: Bearer <token>",
-      HttpStatus.UNAUTHORIZED,
+      'Invalid authorization format. Expected: Bearer <token>',
+      HttpStatus.UNAUTHORIZED
     );
   }
 
@@ -33,6 +30,16 @@ export const authMiddleware: RequestHandler = (
       email: string;
     };
 
+    const user = await User.findById(payload.id).lean();
+
+    if (!user) {
+      return sendError(res, 'User not found', HttpStatus.UNAUTHORIZED);
+    }
+
+    if (user.isBlocked) {
+      return sendError(res, 'Your account has been blocked', HttpStatus.FORBIDDEN);
+    }
+
     req.auth = {
       id: payload.id,
       email: payload.email,
@@ -40,32 +47,28 @@ export const authMiddleware: RequestHandler = (
 
     next();
   } catch {
-    return sendError(res, "Invalid or expired token", HttpStatus.UNAUTHORIZED);
+    return sendError(res, 'Invalid or expired token', HttpStatus.UNAUTHORIZED);
   }
 };
 
 export const adminAuthMiddleware: RequestHandler = (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
-    return sendError(
-      res,
-      "Authorization header missing",
-      HttpStatus.UNAUTHORIZED,
-    );
+    return sendError(res, 'Authorization header missing', HttpStatus.UNAUTHORIZED);
   }
 
-  const [scheme, token] = authHeader.split(" ");
+  const [scheme, token] = authHeader.split(' ');
 
-  if (scheme !== "Bearer" || !token) {
+  if (scheme !== 'Bearer' || !token) {
     return sendError(
       res,
-      "Invalid authorization format. Expected: Bearer <token>",
-      HttpStatus.UNAUTHORIZED,
+      'Invalid authorization format. Expected: Bearer <token>',
+      HttpStatus.UNAUTHORIZED
     );
   }
 
@@ -82,6 +85,6 @@ export const adminAuthMiddleware: RequestHandler = (
 
     next();
   } catch {
-    return sendError(res, "Invalid or expired token", HttpStatus.UNAUTHORIZED);
+    return sendError(res, 'Invalid or expired token', HttpStatus.UNAUTHORIZED);
   }
 };
